@@ -349,10 +349,10 @@ existingRabbitSecret: ""
 #     rabbitmq-password
 existingSecret: ""
 amqp:
-  # Set host to rabbitmq-rabbitmq-ha.default.svc.cluster.local if using helm rabbitmq-ha
-  host:
   port: 5672
-  # Only set username & password if not using existingRabbitSecret
+  # Only set host, username & password if not using existingRabbitSecret
+  # Set host to rabbitmq-rabbitmq-ha.default.svc.cluster.local if using helm rabbitmq-ha
+  host:  
   username:
   password:
   sslEnabled: false
