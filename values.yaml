@@ -344,6 +344,7 @@ existingRabbitSecret: ""
 #     spring.datasource.username
 #     spring.datasource.password
 # If existingRabbitSecret is not specified. These properties must be included as well:
+#     rabbitmq-host
 #     rabbitmq-username
 #     rabbitmq-password
 existingSecret: ""
