@@ -29,9 +29,9 @@ data:
     spring.datasource.hikari.minimum-idle={{ .Values.datasource.minimumIdle }}
 
     #AMQP
-    queue.host={{ default "none" .Values.amqp.host }}
     queue.port={{ .Values.amqp.port }}
-    # This is a hack to map existing secrets, rabbitmq-username & rabbitmq-password, to our custom queue properties
+    # This is a hack to map existing secrets, rabbitmq-host, rabbitmq-username & rabbitmq-password, to our custom queue properties
+    queue.host=${rabbitmq-host}
     queue.username=${rabbitmq-username}
     queue.password=${rabbitmq-password}
     queue.ssl.enabled={{ .Values.amqp.sslEnabled }}
