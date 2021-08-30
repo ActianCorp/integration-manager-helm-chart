@@ -5,6 +5,8 @@
 #imagePullSecrets:
 #  - actian-registrykey
 imagePullSecrets: []
+serviceAccount:
+  annotations: {}
 # Extra values to be added to application.properties
 extraConfig: {}
 aggregator:
@@ -352,7 +354,7 @@ amqp:
   port: 5672
   # Only set host, username & password if not using existingRabbitSecret
   # Set host to rabbitmq-rabbitmq-ha.default.svc.cluster.local if using helm rabbitmq-ha
-  host:  
+  host:
   username:
   password:
   sslEnabled: false
