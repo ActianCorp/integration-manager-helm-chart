@@ -47,7 +47,11 @@ spec:
         - backend:
             serviceName: {{ template "integration-manager.base.fullname" . }}
             servicePort: 8080
+          {{- if .Values.ingress.pathVersionPrefix }}
+          path: /(oauth2.*)
+          {{- else }}
           path: /oauth2
+          {{- end }}
         - backend:
             serviceName: {{ template "integration-manager.base.fullname" . }}
             servicePort: 8080
