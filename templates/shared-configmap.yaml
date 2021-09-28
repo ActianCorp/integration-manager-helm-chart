@@ -135,6 +135,8 @@ data:
     spring.jpa.properties.eclipselink.cache.coordination.jms.topic=EclipseLinkCacheTopic
     {{- else }}
     spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration
+    {{ else }}
+    spring.jpa.properties.eclipselink.cache.shared.default=false
     {{- end }}
 
     #Quartz Scheduler Configuration
