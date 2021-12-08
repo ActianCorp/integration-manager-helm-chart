@@ -340,6 +340,14 @@ spec:
           {{- else }}
           path: /api/downloads
           {{- end }}
+        - backend:
+            serviceName: {{ template "integration-manager.base.fullname" . }}
+            servicePort: 8080
+          {{- if .Values.ingress.pathVersionPrefix }}
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/product.*)
+          {{- else }}
+          path: /api/product
+          {{- end }}
         # Expose this when ready
 #        - backend:
 #            serviceName: {{ template "integration-manager.base.fullname" . }}
