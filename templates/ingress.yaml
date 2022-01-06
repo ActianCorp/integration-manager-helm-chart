@@ -300,15 +300,29 @@ spec:
             serviceName: {{ template "integration-manager.static-content.fullname" . }}
             servicePort: 80
           {{- if .Values.ingress.pathVersionPrefix }}
-          path: /{{ .Values.ingress.pathVersionPrefix }}/(im.*)
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(dx.*)
           {{- else }}
-          path: /im
+          path: /dx
           {{- end }}
         {{- if .Values.ingress.pathVersionPrefix }}
         - backend:
             serviceName: {{ template "integration-manager.static-content.fullname" . }}
             servicePort: 80
-          path: /(im.*)
+          path: /(dx.*)
+        {{- end }}
+        - backend:
+            serviceName: {{ template "integration-manager.static-content.fullname" . }}
+            servicePort: 80
+          {{- if .Values.ingress.pathVersionPrefix }}
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(ui.*)
+          {{- else }}
+          path: /ui
+          {{- end }}
+        {{- if .Values.ingress.pathVersionPrefix }}
+        - backend:
+            serviceName: {{ template "integration-manager.static-content.fullname" . }}
+            servicePort: 80
+          path: /(ui.*)
         {{- end }}
         - backend:
             serviceName: {{ template "integration-manager.static-content.fullname" . }}
