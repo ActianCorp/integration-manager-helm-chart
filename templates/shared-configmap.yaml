@@ -21,7 +21,7 @@ data:
     job.history.max-job-count=1000
     job.results.queue-name={{ .Values.resultsQueue }}
     
-    engine.localEngineJvmPath=${sharedDataPath}/conf/cosmos.ini
+    engine.iniFilePath=${sharedDataPath}/conf/cosmos.ini
 
     #Datasource
     spring.datasource.platform=mysql
