@@ -20,6 +20,8 @@ data:
     job.history.max-age=90
     job.history.max-job-count=1000
     job.results.queue-name={{ .Values.resultsQueue }}
+    
+    engine.iniFilePath=${sharedDataPath}/conf/cosmos.ini
 
     #Datasource
     spring.datasource.platform=mysql
