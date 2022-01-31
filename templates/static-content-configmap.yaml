@@ -33,7 +33,113 @@ data:
       "BASE_URL_MACRO": "{{ .Values.staticContent.baseEndpoint }}/api",
       "BASE_URL_DESTINATION": "{{ .Values.staticContent.baseEndpoint }}/api"
     }
-
+  aopAppConfig.json: |
+    {
+        "name": "avdev",
+        "isProdEnv": false,
+        "isIMOnPrem": {{ .Values.staticContent.isIMOnPrem }},
+        "rootPath": false,
+        "isCloud": true,
+        "AVALANCHE_FEATURE_VISIBLE_ENV": {
+            "SCALING": true,
+            "IM": true,
+            "AV": true,
+            "SDI": true,
+            "SM": true,
+            "SQL_EDITOR": true,
+            "DL": true,
+            "MONITORING": true,
+            "KEY_MANAGEMENT": false,
+            "DIRECT_LOAD_ENABLED": true,
+            "DASHBOARD": true,
+            "DASHBOARD_VISIBLE_ENV": true,
+            "AV_ASSISTANT": true,
+            "ONBOARD_SURVEY": true,
+            "SCHEDULER": true,
+            "WAREHOUSE_USER": true,
+            "WAREHOUSE_USAGE": true,
+            "USER_MANAGEMENT": true,
+            "DATABASE_INSTANCE": true,
+            "UPLOAD_RSA_KEY": true
+        },
+        "precogCloudPlatform": "GOOGLE",
+        "precogCloudRegion": "EAST_US2",
+        "resetCloudUserPwdUrl": "",
+        "siteStatusUrl": "",
+        "BASE_URL_ACL": "https://dataclouddev.pervasive.com:443/EntityAPIService/ACLServiceService",
+        "BASE_URL_ACL_ENTITY": "https://dataclouddev.pervasive.com:443/EntityAPIService/EntityAPIWebService",
+        "BASE_URL_LOGIN": "{{ .Values.staticContent.baseEndpoint }}/api",
+        "BASE_URL_JOB_CONFIGS": "{{ .Values.staticContent.baseEndpoint }}/api",
+        "BASE_URL_JOBS": "{{ .Values.staticContent.baseEndpoint }}/api",
+        "BASE_URL_MACROSET": "{{ .Values.staticContent.baseEndpoint }}/api",
+        "BASE_URL_PACKAGES": "{{ .Values.staticContent.baseEndpoint }}/api",
+        "BASE_URL_ACCOUNT_MANAGER": "{{ .Values.staticContent.baseEndpoint }}/api",
+        "BASE_URL_AGENTS": "{{ .Values.staticContent.baseEndpoint }}/api",
+        "BASE_URL_GROUPS_MANAGER": "{{ .Values.staticContent.baseEndpoint }}/api",
+        "BASE_URL_LICENSE": "{{ .Values.staticContent.baseEndpoint }}/api",
+        "BASE_URL_SUBSCRIPTION": "{{ .Values.staticContent.baseEndpoint }}/api",
+        "BASE_URL_MACRO": "{{ .Values.staticContent.baseEndpoint }}/api",
+        "BASE_URL_DESTINATION": "{{ .Values.staticContent.baseEndpoint }}/api",
+        "BASE_URL_GITHUB": "https://api.github.com/repos/ActianCorp",
+        "BASE_URL_PROVISIONS": "https://pps.dev.actiandatacloud.com/api",
+        "BASE_URL_FILE_LOADER": "https://api.dev.actiandatacloud.com/v2/api",
+        "BASE_URL_DC_DESIGN": "https://design.dev.actiandatacloud.com",
+        "googleAnalytics": {
+            "enabled": false
+        },
+        "pendoAnalytics": {
+            "enabled": true
+        },
+        "avalancheServiceStatusFeedURL": "serviceStatusFeed",
+        "-------WAREHOUSE CONFIG-------": "---STARTS HERE---",
+        "minutesUntilAutoLogout": 60,
+        "aidAuthentication": true,
+        "useResourceAPIForWarehouse": false,
+        "monitoringSupportedVersionFrom": "2.0.24-186",
+        "CLOUD_PLATFORMS": [
+            "azure",
+            "aws",
+            "google"
+        ],
+        "authServiceUrl": "https://api-us-east-1.avdev.actiandatacloud.com/avdev-vas",
+        "apiURL": "https://api.dev.actiandatacloud.com/v2/api/",
+        "provisionServiceUrl": "vps",
+        "managementServiceUrl": "vms",
+        "aidServiceUrl": "/aid",
+        "nagiosUrl": "/nagios",
+        "nagiosgraphUrl": "/nagiosgraph",
+        "redirectUrl": "https://localhost:4200/users/login/callback",
+        "imIps": "https://im.dev.actiandatacloud.com/info",
+        "kms": "https://api-us-east-1.avdev.actiandatacloud.com/avdev-akms/api/v1/managed-key",
+        "av2": {
+            "warehouse": "av2warehouse",
+            "warehouseResource": "av2resourceWarehouse",
+            "databaseResource": "av2resourceDatabase",
+            "usage": "av2usage",
+            "config": "av2config",
+            "scheduledtask": "av2scheduletask"
+        },
+        "notification": "https://ciamtest.actian.com/notification/content.php",
+        "sfToDcTokenExchange": "https://api.dev.actiandatacloud.com/v2/api/token-exchange",
+        "designTemplateRepos": [
+            {
+                "name": "dc-templates-test",
+                "type": "dataconnect",
+                "branch": "master",
+                "version": "6.0",
+                "authorization": "Basic YW9wLXVpOmdocF9ROWF0M0pyUjNlV2FZZ1RIU2lOaWpRVERlaW5MWXQwWE9yQk4="
+            }
+        ],
+        "avalancheDocumentationUrl": "http://testdocs.actian.com/avalanche/#page/User%2FIntroducing_Actian_Avalanche.htm%23",
+        "downloadToolsAndDriverUrl": "https://sstest.actian.com/user/login.php?target=https://esdtest.actian.com/product/Avalanche",
+        "avalancheCommunityURL": "https://full-myactian.cs159.force.com/idp/login?app=0sp4F0000004C9S",
+        "createNewSupportCaseUrl": "https://full-actian.cs47.force.com/communities/s/create-new-case",
+        "communityIdeasUrl": "https://communities.actian.com/s/actian-communities-ideas",
+        "connectionInfoUrl": "http://testdocs.actian.com/avalanche/#page/Security/Avalanche_Identity_and_Access_Management.htm#",
+        "externalTableAccessInfoUrl": "http://testdocs.actian.com/avalanche/#page/User/Set_Up_Access_Credentials_for_Cloud_Storage_Acco.htm#",
+        "whatsNewInAvalanche": "http://testdocs.actian.com/avalanche/",
+        "dataLoadingOverviewUrl": "http://testdocs.actian.com/avalanche/#page/DataLoading/Data_Loading_Roadmap_3a_Choosing_a_Data_Loading_Me.htm#"
+    }
   {{- if .Values.staticContent.ipWhiteList }}
   whitelist.json: |
     {{ .Values.staticContent.ipWhiteList | toString | indent 4 | trim }}
