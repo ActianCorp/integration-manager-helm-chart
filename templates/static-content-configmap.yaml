@@ -35,10 +35,10 @@ data:
     }
   aopAppConfig.json: |
     {
-        "name": "avdev",
+        "name": "{{ .Values.staticContent.name }}",
         "isProdEnv": false,
         "isIMOnPrem": {{ .Values.staticContent.isIMOnPrem }},
-        "rootPath": false,
+        "rootPath": {{ .Values.staticContent.rootPath }},
         "isCloud": true,
         "AVALANCHE_FEATURE_VISIBLE_ENV": {
             "SCALING": true,
