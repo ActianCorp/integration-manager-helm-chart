@@ -34,7 +34,7 @@ data:
       "BASE_URL_DESTINATION": "{{ .Values.staticContent.baseEndpoint }}/api"
     }
   aopAppConfig.json: |
-    {{ required "config.aopAppConfig is required " .Values.staticContent.aopAppConfig | toString | indent 4 | trim  }}
+    {{ required "staticContent.aopAppConfig is required " .Values.staticContent.aopAppConfig | toString | indent 4 | trim  }}
   {{- if .Values.staticContent.ipWhiteList }}
   whitelist.json: |
     {{ .Values.staticContent.ipWhiteList | toString | indent 4 | trim }}
