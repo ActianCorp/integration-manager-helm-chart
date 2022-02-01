@@ -66,11 +66,11 @@ data:
         "precogCloudRegion": "EAST_US2",
         "resetCloudUserPwdUrl": "",
         "siteStatusUrl": "",
-        "BASE_URL_ACL": "https://dataclouddev.pervasive.com:443/EntityAPIService/ACLServiceService",
-        "BASE_URL_ACL_ENTITY": "https://dataclouddev.pervasive.com:443/EntityAPIService/EntityAPIWebService",
+        "BASE_URL_ACL": "{{ .Values.staticContent.aclURL }}/EntityAPIService/ACLServiceService",
+        "BASE_URL_ACL_ENTITY": "{{ .Values.staticContent.aclURL }}/EntityAPIService/EntityAPIWebService",
         "BASE_URL_LOGIN": "{{ .Values.staticContent.baseEndpoint }}/api",
         "BASE_URL_JOB_CONFIGS": "{{ .Values.staticContent.baseEndpoint }}/api",
-        "BASE_URL_JOBS": "{{ .Values.staticContent.baseEndpoint }}/api",
+        "BASE_URL_JOBS": "{{ .Values.staticContent.jobsEndpoint }}/api",
         "BASE_URL_MACROSET": "{{ .Values.staticContent.baseEndpoint }}/api",
         "BASE_URL_PACKAGES": "{{ .Values.staticContent.baseEndpoint }}/api",
         "BASE_URL_ACCOUNT_MANAGER": "{{ .Values.staticContent.baseEndpoint }}/api",
@@ -82,7 +82,7 @@ data:
         "BASE_URL_DESTINATION": "{{ .Values.staticContent.baseEndpoint }}/api",
         "BASE_URL_GITHUB": "https://api.github.com/repos/ActianCorp",
         "BASE_URL_PROVISIONS": "https://pps.dev.actiandatacloud.com/api",
-        "BASE_URL_FILE_LOADER": "https://api.dev.actiandatacloud.com/v2/api",
+        "BASE_URL_FILE_LOADER": "{{ .Values.staticContent.baseEndpoint }}/api",
         "BASE_URL_DC_DESIGN": "https://design.dev.actiandatacloud.com",
         "googleAnalytics": {
             "enabled": false
@@ -101,7 +101,7 @@ data:
             "aws",
             "google"
         ],
-        "authServiceUrl": "https://api-us-east-1.avdev.actiandatacloud.com/avdev-vas",
+        "authServiceUrl": "{{ .Values.staticContent.avEndpoint }}/avdev-vas",
         "apiURL": "https://api.dev.actiandatacloud.com/v2/api/",
         "provisionServiceUrl": "vps",
         "managementServiceUrl": "vms",
@@ -110,7 +110,7 @@ data:
         "nagiosgraphUrl": "/nagiosgraph",
         "redirectUrl": "https://localhost:4200/users/login/callback",
         "imIps": "https://im.dev.actiandatacloud.com/info",
-        "kms": "https://api-us-east-1.avdev.actiandatacloud.com/avdev-akms/api/v1/managed-key",
+        "kms": "{{ .Values.staticContent.avEndpoint }}/avdev-akms/api/v1/managed-key",
         "av2": {
             "warehouse": "av2warehouse",
             "warehouseResource": "av2resourceWarehouse",
