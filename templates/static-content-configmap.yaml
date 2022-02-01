@@ -102,14 +102,14 @@ data:
             "google"
         ],
         "authServiceUrl": "{{ .Values.staticContent.avEndpoint }}/avdev-vas",
-        "apiURL": "https://api.dev.actiandatacloud.com/v2/api/",
+        "apiURL": "{{ .Values.staticContent.baseEndpoint }}/api/",
         "provisionServiceUrl": "vps",
         "managementServiceUrl": "vms",
         "aidServiceUrl": "/aid",
         "nagiosUrl": "/nagios",
         "nagiosgraphUrl": "/nagiosgraph",
         "redirectUrl": "https://localhost:4200/users/login/callback",
-        "imIps": "https://im.dev.actiandatacloud.com/info",
+        "imIps": "https://{{ .Values.staticContent.ingress.host }}/info",
         "kms": "{{ .Values.staticContent.avEndpoint }}/avdev-akms/api/v1/managed-key",
         "av2": {
             "warehouse": "av2warehouse",
@@ -120,7 +120,7 @@ data:
             "scheduledtask": "av2scheduletask"
         },
         "notification": "https://ciamtest.actian.com/notification/content.php",
-        "sfToDcTokenExchange": "https://api.dev.actiandatacloud.com/v2/api/token-exchange",
+        "sfToDcTokenExchange": "{{ .Values.staticContent.baseEndpoint }}/api/token-exchange",
         "designTemplateRepos": [
             {
                 "name": "dc-templates-test",
