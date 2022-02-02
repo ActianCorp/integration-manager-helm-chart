@@ -96,6 +96,14 @@ spec:
             serviceName: {{ template "integration-manager.base.fullname" . }}
             servicePort: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/user.*)
+          {{- else }}
+          path: /api/user
+          {{- end }}
+        - backend:
+            serviceName: {{ template "integration-manager.base.fullname" . }}
+            servicePort: 8080
+          {{- if .Values.ingress.pathVersionPrefix }}
           path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/license.*)
           {{- else }}
           path: /api/license
@@ -208,9 +216,9 @@ spec:
             serviceName: {{ template "integration-manager.base.fullname" . }}
             servicePort: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
-          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/device\/code.*)
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/device.*)
           {{- else }}
-          path: /api/device/code
+          path: /api/device/*
           {{- end }}
         - backend:
             serviceName: {{ template "integration-manager.base.fullname" . }}
