@@ -9,7 +9,6 @@ metadata:
 data:
   application.properties: |
     #integration-manager-base specific properties
-    engine.iniFilePath=${sharedDataPath}/conf/cosmos.ini
     {{- if .Values.agent.baseUrl }}
     agent.base-url={{ .Values.agent.baseUrl }}
     {{- end }}
