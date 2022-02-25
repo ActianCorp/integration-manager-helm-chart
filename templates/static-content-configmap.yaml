@@ -8,31 +8,7 @@ metadata:
     release: {{ .Release.Name }}
 data:
   appConfig.json: |
-    {
-      "isCloud": true,
-
-      "agentInstallerUrl": "",
-      "agentInstallerUrlWindows": "{{ .Values.staticContent.agentInstallerUrlWindows }}",
-      "agentInstallerUrlLinux": "{{ .Values.staticContent.agentInstallerUrlLinux }}",
-      "resetCloudUserPwdUrl": "",
-      "siteStatusUrl": "",
-      "salesForceLoginUrl": "{{ .Values.staticContent.salesForceLoginUrl }}",
-
-      "BASE_URL_ACL": "",
-      "BASE_URL_ACL_ENTITY": "",
-      "BASE_URL_LOGIN": "{{ .Values.staticContent.baseEndpoint }}/api",
-      "BASE_URL_JOB_CONFIGS": "{{ .Values.staticContent.baseEndpoint }}/api",
-      "BASE_URL_JOBS": "{{ .Values.staticContent.jobsEndpoint }}/api",
-      "BASE_URL_MACROSET": "{{ .Values.staticContent.baseEndpoint }}/api",
-      "BASE_URL_PACKAGES": "{{ .Values.staticContent.baseEndpoint }}/api",
-      "BASE_URL_ACCOUNT_MANAGER": "{{ .Values.staticContent.baseEndpoint }}/api",
-      "BASE_URL_AGENTS": "{{ .Values.staticContent.baseEndpoint }}/api",
-      "BASE_URL_GROUPS_MANAGER": "{{ .Values.staticContent.baseEndpoint }}/api",
-      "BASE_URL_LICENSE": "{{ .Values.staticContent.baseEndpoint }}/api",
-      "BASE_URL_SUBSCRIPTION": "{{ .Values.staticContent.baseEndpoint }}/api",
-      "BASE_URL_MACRO": "{{ .Values.staticContent.baseEndpoint }}/api",
-      "BASE_URL_DESTINATION": "{{ .Values.staticContent.baseEndpoint }}/api"
-    }
+    {{ required "config.appConfig is required " .Values.staticContent.appConfig | toString | indent 4 | trim  }}
   aopAppConfig.json: |
     {{ required "staticContent.aopAppConfig is required " .Values.staticContent.aopAppConfig | toString | indent 4 | trim  }}
   {{- if .Values.staticContent.ipWhiteList }}
