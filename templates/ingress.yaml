@@ -45,6 +45,14 @@ spec:
               port:
                 number: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/logout.*)
+          {{- else }}
+          path: /api/logout
+          {{- end }}
+        - backend:
+            serviceName: {{ template "integration-manager.base.fullname" . }}
+            servicePort: 8080
+          {{- if .Values.ingress.pathVersionPrefix }}
           path: /{{ .Values.ingress.pathVersionPrefix }}/(login.*)
           {{- else }}
           path: /login
