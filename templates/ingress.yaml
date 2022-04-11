@@ -51,8 +51,10 @@ spec:
           {{- end }}
           pathType: ImplementationSpecific
         - backend:
-            serviceName: {{ template "integration-manager.base.fullname" . }}
-            servicePort: 8080
+            service:
+              name: {{ template "integration-manager.base.fullname" . }}
+              port:
+                number: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
           path: /{{ .Values.ingress.pathVersionPrefix }}/(login.*)
           {{- else }}
