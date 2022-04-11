@@ -59,6 +59,11 @@ spec:
           readOnly: true
           mountPath: /usr/share/nginx/html/info/
         {{- end }}
+        {{- if .Values.staticContent.nginxConf }}
+        - name: nginx-conf
+          readOnly: true
+          mountPath: /etc/nginx/conf.d/
+        {{- end }}
         readinessProbe:
           {{ .Values.staticContent.readinessProbe | toYaml | indent 10 | trim }}
         livenessProbe:
@@ -84,4 +89,12 @@ spec:
           items:
             - key: whitelist.json
               path: whitelist.json
+      {{ end }}
+      {{- if .Values.staticContent.nginxConf }}
+      - name: nginx-conf
+        configMap:
+          name: {{ template "integration-manager.static-content.fullname" . }}
+          items:
+            - key: nginx.conf
+              path: default.conf
       {{ end }}
