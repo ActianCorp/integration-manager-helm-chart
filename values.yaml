@@ -258,6 +258,43 @@ jobScheduler:
   service:
     annotations: {}
     type: ClusterIP
+authorizationService:
+  image: actian/datacloud-authorization-service:IP-5581
+  revisionHistoryLimit: 10
+  pdb: {}
+    #minAvailable: 1
+  affinity: {}
+  livenessProbe:
+    initialDelaySeconds: 120
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    httpGet:
+      scheme: HTTP
+      path: /health
+      port: 8080
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
+    httpGet:
+      scheme: HTTP
+      path: /health
+      port: 8080
+  pullPolicy: IfNotPresent
+  extraInitContainers: []
+  extraConfig: {}
+  javaOpts: ""
+  replicaCount: 1
+  extraLabels: {}
+  podAnnotations: {}
+  resources: {}
+  nodeSelector: {}
+  service:
+    annotations: {}
+    type: ClusterIP
 staticContent:
   image: actian/integration-manager-static-content:2.0.6.294
   revisionHistoryLimit: 10

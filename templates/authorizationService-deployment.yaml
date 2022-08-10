@@ -1,0 +1,119 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "integration-manager.authorizationService.fullname" . }}
+  labels:
+    app: integration-manager
+    component: authorizationService
+    chart: {{ template "integration-manager.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.authorizationService.replicaCount }}
+  revisionHistoryLimit: {{ .Values.authorizationService.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app: integration-manager
+      component: authorizationService
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      annotations:
+        checksum/sharedconfig: {{ include (print $.Template.BasePath "/shared-configmap.yaml") . | sha256sum }}
+        checksum/baseconfig: {{ include (print $.Template.BasePath "/authorizationService-configmap.yaml") . | sha256sum }}
+        checksum/secrets: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
+        {{- if .Values.authorizationService.podAnnotations }}
+        {{ .Values.authorizationService.podAnnotations | toYaml | indent 8 | trim }}
+        {{- end }}
+      labels:
+        app: integration-manager
+        component: authorizationService
+        chart: {{ template "integration-manager.chart" . }}
+        release: {{ .Release.Name }}
+        {{- if .Values.authorizationService.extraLabels }}
+        {{ .Values.authorizationService.extraLabels | toYaml | indent 8 | trim }}
+        {{- end }}
+    spec:
+      {{- if .Values.authorizationService.affinity }}
+      affinity:
+        {{ .Values.authorizationService.affinity | toYaml | indent 8 | trim }}
+      {{- end }}
+      serviceAccountName: {{ template "integration-manager.fullname" . }}
+      {{- if .Values.authorizationService.nodeSelector }}
+      nodeSelector:
+        {{ .Values.authorizationService.nodeSelector | toYaml | indent 8 | trim }}
+      {{- end }}
+      {{- if .Values.authorizationService.extraInitContainers }}
+      initContainers:
+        {{ tpl .Values.authorizationService.extraInitContainers . | indent 6 | trim }}
+      {{- end }}
+      containers:
+      - name: datacloud-authorization-service
+        image: {{ .Values.authorizationService.image }}
+        imagePullPolicy: {{ .Values.authorizationService.pullPolicy }}
+        env:
+        {{- if .Values.authorizationService.javaOpts }}
+        - name: JAVA_OPTS
+          value: {{ .Values.authorizationService.javaOpts }}
+        {{- end }}
+        {{- if .Values.repository.awsCreateEnvVar }}
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: aws-access-key
+              {{- if .Values.existingSecret }}
+              name: {{ .Values.existingSecret }}
+              {{- else }}
+              name: {{ template "integration-manager.fullname" . }}
+              {{- end }}
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: aws-secret-key
+              {{- if .Values.existingSecret }}
+              name: {{ .Values.existingSecret }}
+              {{- else }}
+              name: {{ template "integration-manager.fullname" . }}
+              {{- end }}
+        {{- end }}
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: im-shared-volume
+          readOnly: true
+          mountPath: /etc/config/shared.properties
+          subPath: application.properties
+        - name: im-volume
+          readOnly: true
+          mountPath: /etc/config/application.properties
+          subPath: application.properties
+        - name: secret-volume
+          readOnly: true
+          mountPath: /etc/secrets
+        readinessProbe:
+          {{ .Values.authorizationService.readinessProbe | toYaml | indent 10 | trim }}
+        livenessProbe:
+          {{ .Values.authorizationService.livenessProbe | toYaml | indent 10 | trim }}
+        {{- if .Values.integrationManagerBase.resources }}
+        resources:
+          {{ .Values.authorizationService.resources | toYaml | indent 10 | trim }}
+        {{- end }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- range .Values.imagePullSecrets }}
+        - name: {{ . }}
+      {{- end }}
+      {{- end }}
+      volumes:
+      - name: im-shared-volume
+        configMap:
+          name: {{ template "integration-manager.fullname" . }}-shared
+      - name: im-volume
+        configMap:
+          name: {{ template "integration-manager.authorizationService.fullname" . }}
+      - name: secret-volume
+        secret:
+          {{- if .Values.existingSecret }}
+          secretName: {{ .Values.existingSecret }}
+          {{- else }}
+          secretName: {{ template "integration-manager.fullname" . }}
+          {{- end }}
