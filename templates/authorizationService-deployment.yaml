@@ -55,26 +55,6 @@ spec:
         - name: JAVA_OPTS
           value: {{ .Values.authorizationService.javaOpts }}
         {{- end }}
-        {{- if .Values.repository.awsCreateEnvVar }}
-        - name: AWS_ACCESS_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: aws-access-key
-              {{- if .Values.existingSecret }}
-              name: {{ .Values.existingSecret }}
-              {{- else }}
-              name: {{ template "integration-manager.fullname" . }}
-              {{- end }}
-        - name: AWS_SECRET_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              key: aws-secret-key
-              {{- if .Values.existingSecret }}
-              name: {{ .Values.existingSecret }}
-              {{- else }}
-              name: {{ template "integration-manager.fullname" . }}
-              {{- end }}
-        {{- end }}
         ports:
         - containerPort: 8080
         volumeMounts:
