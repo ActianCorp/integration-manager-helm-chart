@@ -30,7 +30,7 @@ spec:
         paths:
         - backend:
             service:
-              name: {{ template "integration-manager.base.fullname" . }}
+              name: {{ template "integration-manager.authorization.fullname" . }}
               port:
                 number: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
@@ -41,7 +41,7 @@ spec:
           pathType: ImplementationSpecific
         - backend:
             service:
-              name: {{ template "integration-manager.base.fullname" . }}
+              name: {{ template "integration-manager.authorization.fullname" . }}
               port:
                 number: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
@@ -52,7 +52,7 @@ spec:
           pathType: ImplementationSpecific
         - backend:
             service:
-              name: {{ template "integration-manager.base.fullname" . }}
+              name: {{ template "integration-manager.authorization.fullname" . }}
               port:
                 number: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
@@ -63,7 +63,7 @@ spec:
           pathType: ImplementationSpecific
         - backend:
             service:
-              name: {{ template "integration-manager.base.fullname" . }}
+              name: {{ template "integration-manager.authorization.fullname" . }}
               port:
                 number: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
@@ -74,7 +74,7 @@ spec:
           pathType: ImplementationSpecific
         - backend:
             service:
-              name: {{ template "integration-manager.base.fullname" . }}
+              name: {{ template "integration-manager.authorization.fullname" . }}
               port:
                 number: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
@@ -85,7 +85,7 @@ spec:
           pathType: ImplementationSpecific
         - backend:
             service:
-              name: {{ template "integration-manager.base.fullname" . }}
+              name: {{ template "integration-manager.authorization.fullname" . }}
               port:
                 number: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
@@ -96,7 +96,7 @@ spec:
           pathType: ImplementationSpecific
         - backend:
             service:
-              name: {{ template "integration-manager.base.fullname" . }}
+              name: {{ template "integration-manager.authorization.fullname" . }}
               port:
                 number: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
@@ -107,7 +107,7 @@ spec:
           pathType: ImplementationSpecific
         - backend:
             service:
-              name: {{ template "integration-manager.base.fullname" . }}
+              name: {{ template "integration-manager.authorization.fullname" . }}
               port:
                 number: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
