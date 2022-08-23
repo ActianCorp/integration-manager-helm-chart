@@ -1,18 +1,18 @@
-{{- if .Values.authorizationService.pdb }}
+{{- if .Values.authorization.pdb }}
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ template "integration-manager.authorizationService.fullname" . }}
+  name: {{ template "integration-manager.authorization.fullname" . }}
   labels:
     app: integration-manager
-    component: authorizationService
+    component: authorization
     chart: {{ template "integration-manager.chart" . }}
     release: {{ .Release.Name }}
 spec:
   selector:
     matchLabels:
       app: integration-manager
-      component: authorizationService
+      component: authorization
       release: {{ .Release.Name }}
-  {{ toYaml .Values.authorizationService.pdb | indent 2 | trim }}
+  {{ toYaml .Values.authorization.pdb | indent 2 | trim }}
 {{- end }}

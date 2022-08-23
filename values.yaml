@@ -258,7 +258,7 @@ jobScheduler:
   service:
     annotations: {}
     type: ClusterIP
-authorizationService:
+authorization:
   image: actian/datacloud-authorization-service:IP-5581
   revisionHistoryLimit: 10
   pdb: {}

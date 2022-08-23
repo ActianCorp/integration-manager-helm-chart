@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "integration-manager.authorizationService.fullname" . }}
-  {{- if .Values.authorizationService.service.annotations }}
+  name: {{ template "integration-manager.authorization.fullname" . }}
+  {{- if .Values.authorization.service.annotations }}
   annotations:
-    {{ .Values.authorizationService.service.annotations  | toYaml | indent 4 | trim  }}
+    {{ .Values.authorization.service.annotations  | toYaml | indent 4 | trim  }}
   {{- end }}
   labels:
     app: integration-manager
-    component: authorizationService
+    component: authorization
     chart: {{ template "integration-manager.chart" . }}
     release: {{ .Release.Name }}
 spec:
@@ -19,6 +19,6 @@ spec:
       targetPort: 8080
   selector:
     app: integration-manager
-    component: authorizationService
+    component: authorization
     release: {{ .Release.Name }}
-  type: "{{ .Values.authorizationService.service.type }}"
+  type: "{{ .Values.authorization.service.type }}"
