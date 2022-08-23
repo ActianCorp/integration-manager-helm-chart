@@ -73,7 +73,7 @@ spec:
           {{ .Values.authorization.readinessProbe | toYaml | indent 10 | trim }}
         livenessProbe:
           {{ .Values.authorization.livenessProbe | toYaml | indent 10 | trim }}
-        {{- if .Values.integrationManagerBase.resources }}
+        {{- if .Values.authorization.resources }}
         resources:
           {{ .Values.authorization.resources | toYaml | indent 10 | trim }}
         {{- end }}
