@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ template "integration-manager.authorizationService.fullname" . }}
+  name: {{ template "integration-manager.authorization.fullname" . }}
   labels:
     app: integration-manager
     chart: {{ template "integration-manager.chart" . }}
@@ -11,7 +11,7 @@ spec:
   selector:
     matchLabels:
       app: integration-manager
-      component: authorizationService
+      component: authorization
       release: {{ .Release.Name }}
   endpoints:
   - port: https
