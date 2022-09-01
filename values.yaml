@@ -259,7 +259,7 @@ jobScheduler:
     annotations: {}
     type: ClusterIP
 authorization:
-  image: actian/datacloud-authorization-service:IP-5581
+  image: actian/datacloud-authorization-service:develop
   revisionHistoryLimit: 10
   pdb: {}
     #minAvailable: 1
