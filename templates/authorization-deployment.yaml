@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "integration-manager.authorization.fullname" . }}
+  labels:
+    app: integration-manager
+    component: authorization
+    chart: {{ template "integration-manager.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.authorization.replicaCount }}
+  revisionHistoryLimit: {{ .Values.authorization.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app: integration-manager
+      component: authorization
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      annotations:
+        checksum/sharedconfig: {{ include (print $.Template.BasePath "/shared-configmap.yaml") . | sha256sum }}
+        checksum/baseconfig: {{ include (print $.Template.BasePath "/authorization-configmap.yaml") . | sha256sum }}
+        checksum/secrets: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
+        {{- if .Values.authorization.podAnnotations }}
+        {{ .Values.authorization.podAnnotations | toYaml | indent 8 | trim }}
+        {{- end }}
+      labels:
+        app: integration-manager
+        component: authorization
+        chart: {{ template "integration-manager.chart" . }}
+        release: {{ .Release.Name }}
+        {{- if .Values.authorization.extraLabels }}
+        {{ .Values.authorization.extraLabels | toYaml | indent 8 | trim }}
+        {{- end }}
+    spec:
+      {{- if .Values.authorization.affinity }}
+      affinity:
+        {{ .Values.authorization.affinity | toYaml | indent 8 | trim }}
+      {{- end }}
+      serviceAccountName: {{ template "integration-manager.fullname" . }}
+      {{- if .Values.authorization.nodeSelector }}
+      nodeSelector:
+        {{ .Values.authorization.nodeSelector | toYaml | indent 8 | trim }}
+      {{- end }}
+      {{- if .Values.authorization.extraInitContainers }}
+      initContainers:
+        {{ tpl .Values.authorization.extraInitContainers . | indent 6 | trim }}
+      {{- end }}
+      containers:
+      - name: datacloud-authorization-service
+        image: {{ .Values.authorization.image }}
+        imagePullPolicy: {{ .Values.authorization.pullPolicy }}
+        env:
+        {{- if .Values.authorization.javaOpts }}
+        - name: JAVA_OPTS
+          value: {{ .Values.authorization.javaOpts }}
+        {{- end }}
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: im-shared-volume
+          readOnly: true
+          mountPath: /etc/config/shared.properties
+          subPath: application.properties
+        - name: im-volume
+          readOnly: true
+          mountPath: /etc/config/application.properties
+          subPath: application.properties
+        - name: secret-volume
+          readOnly: true
+          mountPath: /etc/secrets
+        readinessProbe:
+          {{ .Values.authorization.readinessProbe | toYaml | indent 10 | trim }}
+        livenessProbe:
+          {{ .Values.authorization.livenessProbe | toYaml | indent 10 | trim }}
+        {{- if .Values.authorization.resources }}
+        resources:
+          {{ .Values.authorization.resources | toYaml | indent 10 | trim }}
+        {{- end }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- range .Values.imagePullSecrets }}
+        - name: {{ . }}
+      {{- end }}
+      {{- end }}
+      volumes:
+      - name: im-shared-volume
+        configMap:
+          name: {{ template "integration-manager.fullname" . }}-shared
+      - name: im-volume
+        configMap:
+          name: {{ template "integration-manager.authorization.fullname" . }}
+      - name: secret-volume
+        secret:
+          {{- if .Values.existingSecret }}
+          secretName: {{ .Values.existingSecret }}
+          {{- else }}
+          secretName: {{ template "integration-manager.fullname" . }}
+          {{- end }}
