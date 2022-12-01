@@ -46,10 +46,14 @@ spec:
       initContainers:
         {{ tpl .Values.jobScheduler.extraInitContainers . | indent 6 | trim }}
       {{- end }}
+      securityContext:
+        {{- toYaml .Values.jobScheduler.podSecurityContext | nindent 8 }}
       containers:
       - name: job-scheduler
         image: {{ .Values.jobScheduler.image }}
         imagePullPolicy: {{ .Values.jobScheduler.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.jobScheduler.securityContext | nindent 10 }}
         ports:
         - containerPort: 8080
         volumeMounts:
