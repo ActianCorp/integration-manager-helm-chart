@@ -46,10 +46,14 @@ spec:
       initContainers:
         {{ tpl .Values.integrationManagerBase.extraInitContainers . | indent 6 | trim }}
       {{- end }}
+      securityContext:
+        {{- toYaml .Values.integrationManagerBase.podSecurityContext | nindent 8 }}
       containers:
       - name: integration-manager-base
         image: {{ .Values.integrationManagerBase.image }}
         imagePullPolicy: {{ .Values.integrationManagerBase.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.integrationManagerBase.securityContext | nindent 10 }}
         env:
         {{- if .Values.integrationManagerBase.javaOpts }}
         - name: JAVA_OPTS
