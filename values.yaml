@@ -87,6 +87,20 @@ aggregator:
   #        memory: 500Mi
   #        cpu: 500m
   nodeSelector: {}
+  podSecurityContext: {}
+  #  fsGroup: 2000
+  #  runAsNonRoot: true
+  securityContext: {}
+  #  # capabilities:
+  #  #   drop:
+  #  #   - ALL
+  #  privileged: false
+  #  allowPrivilegeEscalation: false
+  #  runAsUser: 1000
+  #  runAsGroup: 3000
+  #  #fsGroupChangePolicy: "OnRootMismatch"
+  #  runAsNonRoot: true
+  #  readOnlyRootFilesystem: true
   service:
     annotations: {}
     type: ClusterIP
@@ -113,6 +127,20 @@ aggregatorProcessor:
   podAnnotations: {}
   resources: {}
   nodeSelector: {}
+  podSecurityContext: {}
+  #  fsGroup: 2000
+  #  runAsNonRoot: true
+  securityContext: {}
+  #  # capabilities:
+  #  #   drop:
+  #  #   - ALL
+  #  privileged: false
+  #  allowPrivilegeEscalation: false
+  #  runAsUser: 1000
+  #  runAsGroup: 3000
+  #  #fsGroupChangePolicy: "OnRootMismatch"
+  #  runAsNonRoot: true
+  #  readOnlyRootFilesystem: true
 integrationManagerBase:
   image: actian/integration-manager-base:2.0.6.294
   revisionHistoryLimit: 10
@@ -147,6 +175,20 @@ integrationManagerBase:
   podAnnotations: {}
   resources: {}
   nodeSelector: {}
+  podSecurityContext: {}
+  #  fsGroup: 2000
+  #  runAsNonRoot: true
+  securityContext: {}
+  #  # capabilities:
+  #  #   drop:
+  #  #   - ALL
+  #  privileged: false
+  #  allowPrivilegeEscalation: false
+  #  runAsUser: 1000
+  #  runAsGroup: 3000
+  #  #fsGroupChangePolicy: "OnRootMismatch"
+  #  runAsNonRoot: true
+  #  readOnlyRootFilesystem: true
   service:
     annotations: {}
     type: ClusterIP
@@ -183,6 +225,20 @@ jobExecution:
   podAnnotations: {}
   resources: {}
   nodeSelector: {}
+  podSecurityContext: {}
+  #  fsGroup: 2000
+  #  runAsNonRoot: true
+  securityContext: {}
+  #  # capabilities:
+  #  #   drop:
+  #  #   - ALL
+  #  privileged: false
+  #  allowPrivilegeEscalation: false
+  #  runAsUser: 1000
+  #  runAsGroup: 3000
+  #  #fsGroupChangePolicy: "OnRootMismatch"
+  #  runAsNonRoot: true
+  #  readOnlyRootFilesystem: true
   service:
     annotations: {}
     type: ClusterIP
@@ -219,6 +275,20 @@ jobResultsProcessor:
   podAnnotations: {}
   resources: {}
   nodeSelector: {}
+  podSecurityContext: {}
+  #  fsGroup: 2000
+  #  runAsNonRoot: true
+  securityContext: {}
+  #  # capabilities:
+  #  #   drop:
+  #  #   - ALL
+  #  privileged: false
+  #  allowPrivilegeEscalation: false
+  #  runAsUser: 1000
+  #  runAsGroup: 3000
+  #  #fsGroupChangePolicy: "OnRootMismatch"
+  #  runAsNonRoot: true
+  #  readOnlyRootFilesystem: true
   service:
     annotations: {}
     type: ClusterIP
@@ -255,6 +325,20 @@ jobScheduler:
   podAnnotations: {}
   resources: {}
   nodeSelector: {}
+  podSecurityContext: {}
+  #  fsGroup: 2000
+  #  runAsNonRoot: true
+  securityContext: {}
+  #  # capabilities:
+  #  #   drop:
+  #  #   - ALL
+  #  privileged: false
+  #  allowPrivilegeEscalation: false
+  #  runAsUser: 1000
+  #  runAsGroup: 3000
+  #  #fsGroupChangePolicy: "OnRootMismatch"
+  #  runAsNonRoot: true
+  #  readOnlyRootFilesystem: true
   service:
     annotations: {}
     type: ClusterIP
@@ -292,6 +376,20 @@ authorization:
   podAnnotations: {}
   resources: {}
   nodeSelector: {}
+  podSecurityContext: {}
+  #  fsGroup: 2000
+  #  runAsNonRoot: true
+  securityContext: {}
+  #  # capabilities:
+  #  #   drop:
+  #  #   - ALL
+  #  privileged: false
+  #  allowPrivilegeEscalation: false
+  #  runAsUser: 1000
+  #  runAsGroup: 3000
+  #  #fsGroupChangePolicy: "OnRootMismatch"
+  #  runAsNonRoot: true
+  #  readOnlyRootFilesystem: true
   service:
     annotations: {}
     type: ClusterIP
@@ -309,7 +407,7 @@ staticContent:
     httpGet:
       scheme: HTTP
       path: /
-      port: 80
+      port: 8080
   readinessProbe:
     initialDelaySeconds: 5
     periodSeconds: 10
@@ -319,7 +417,7 @@ staticContent:
     httpGet:
       scheme: HTTP
       path: /
-      port: 80
+      port: 8080
   pullPolicy: IfNotPresent
   extraInitContainers: []
   replicaCount: 1
@@ -327,6 +425,20 @@ staticContent:
   podAnnotations: {}
   resources: {}
   nodeSelector: {}
+  podSecurityContext: {}
+  #  fsGroup: 2000
+  #  runAsNonRoot: true
+  securityContext: {}
+  #  # capabilities:
+  #  #   drop:
+  #  #   - ALL
+  #  privileged: false
+  #  allowPrivilegeEscalation: false
+  #  runAsUser: 101
+  #  runAsGroup: 101
+  #  #fsGroupChangePolicy: "OnRootMismatch"
+  #  runAsNonRoot: true
+  #  readOnlyRootFilesystem: true
   service:
     annotations: {}
     type: ClusterIP

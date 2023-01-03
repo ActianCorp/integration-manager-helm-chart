@@ -44,12 +44,16 @@ spec:
       initContainers:
         {{ tpl .Values.staticContent.extraInitContainers . | indent 6 | trim }}
       {{- end }}
+      securityContext:
+        {{- toYaml .Values.staticContent.podSecurityContext | nindent 8 }}
       containers:
       - name: static-content
         image: {{ .Values.staticContent.image }}
         imagePullPolicy: {{ .Values.staticContent.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.staticContent.securityContext | nindent 10 }}
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         volumeMounts:
         - name: app-config
           readOnly: true

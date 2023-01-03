@@ -46,10 +46,14 @@ spec:
       initContainers:
         {{ tpl .Values.authorization.extraInitContainers . | indent 6 | trim }}
       {{- end }}
+      securityContext:
+        {{- toYaml .Values.authorization.podSecurityContext | nindent 8 }}
       containers:
       - name: datacloud-authorization-service
         image: {{ .Values.authorization.image }}
         imagePullPolicy: {{ .Values.authorization.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.authorization.securityContext | nindent 10 }}
         env:
         {{- if .Values.authorization.javaOpts }}
         - name: JAVA_OPTS
