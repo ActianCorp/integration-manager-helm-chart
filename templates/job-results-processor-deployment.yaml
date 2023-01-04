@@ -46,10 +46,14 @@ spec:
       initContainers:
         {{ tpl .Values.jobResultsProcessor.extraInitContainers . | indent 6 | trim }}
       {{- end }}
+      securityContext:
+        {{- toYaml .Values.jobResultsProcessor.podSecurityContext | nindent 8 }}
       containers:
       - name: job-results-processor
         image: {{ .Values.jobResultsProcessor.image }}
         imagePullPolicy: {{ .Values.jobResultsProcessor.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.jobResultsProcessor.securityContext | nindent 10 }}
         env:
         {{- if .Values.repository.awsCreateEnvVar }}
         - name: AWS_ACCESS_KEY_ID
