@@ -47,10 +47,14 @@ spec:
       initContainers:
         {{ tpl .Values.jobExecution.extraInitContainers . | indent 6 | trim }}
       {{- end }}
+      securityContext:
+        {{- toYaml .Values.jobExecution.podSecurityContext | nindent 8 }}
       containers:
       - name: job-execution
         image: {{ .Values.jobExecution.image }}
         imagePullPolicy: {{ .Values.jobExecution.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.jobExecution.securityContext | nindent 10 }}
         env:
         {{- if .Values.repository.awsCreateEnvVar }}
         - name: AWS_ACCESS_KEY_ID

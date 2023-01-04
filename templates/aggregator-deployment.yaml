@@ -47,10 +47,14 @@ spec:
       initContainers:
         {{ tpl .Values.aggregator.extraInitContainers . | indent 8 | trim }}
       {{- end }}
+      securityContext:
+        {{- toYaml .Values.aggregator.podSecurityContext | nindent 8 }}
       containers:
       - name: aggregator
         image: {{ .Values.aggregator.image }}
         imagePullPolicy: {{ .Values.aggregator.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.aggregator.securityContext | nindent 10 }}
         env:
         {{- if .Values.repository.awsCreateEnvVar }}
         - name: AWS_ACCESS_KEY_ID
