@@ -342,57 +342,6 @@ jobScheduler:
   service:
     annotations: {}
     type: ClusterIP
-authorization:
-  image: actian/datacloud-authorization-service:develop
-  revisionHistoryLimit: 10
-  pdb: {}
-    #minAvailable: 1
-  affinity: {}
-  livenessProbe:
-    initialDelaySeconds: 120
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 3
-    httpGet:
-      scheme: HTTP
-      path: /health
-      port: 8080
-  readinessProbe:
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 3
-    successThreshold: 1
-    httpGet:
-      scheme: HTTP
-      path: /health
-      port: 8080
-  pullPolicy: IfNotPresent
-  extraInitContainers: []
-  extraConfig: {}
-  javaOpts: ""
-  replicaCount: 1
-  extraLabels: {}
-  podAnnotations: {}
-  resources: {}
-  nodeSelector: {}
-  podSecurityContext: {}
-  #  fsGroup: 2000
-  #  runAsNonRoot: true
-  securityContext: {}
-  #  # capabilities:
-  #  #   drop:
-  #  #   - ALL
-  #  privileged: false
-  #  allowPrivilegeEscalation: false
-  #  runAsUser: 1000
-  #  runAsGroup: 3000
-  #  #fsGroupChangePolicy: "OnRootMismatch"
-  #  runAsNonRoot: true
-  #  readOnlyRootFilesystem: true
-  service:
-    annotations: {}
-    type: ClusterIP
 staticContent:
   image: actian/integration-manager-static-content:2.0.6.294
   revisionHistoryLimit: 10
