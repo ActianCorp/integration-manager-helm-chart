@@ -316,6 +316,17 @@ spec:
           pathType: ImplementationSpecific
         - backend:
             service:
+              name: {{ template "integration-manager.job-log-streaming.fullname" . }}
+              port:
+                number: 8080
+          {{- if .Values.ingress.pathVersionPrefix }}
+          path: /{{ .Values.ingress.pathVersionPrefix }}/api/jobs/([^\/]+\/logevents.*)
+          {{- else }}
+          path: /api/jobs/([^\/]+\/logevents.*)
+          {{- end }}
+          pathType: ImplementationSpecific
+        - backend:
+            service:
               name: {{ template "integration-manager.job-execution.fullname" . }}
               port:
                 number: 8080

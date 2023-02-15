@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "integration-manager.job-log-streaming.fullname" . }}
+  labels:
+    app: integration-manager
+    chart: {{ template "integration-manager.chart" . }}
+    release: {{ .Release.Name }}
+data:
+  application.properties: |
+    #job-log-streaming specific properties
+    server.job.wait-timeout={{ .Values.jobTimeOut }}
+    {{- if .Values.jobLogStreaming.extraConfig }}
+    {{ .Values.jobLogStreaming.extraConfig | indent 4 | trim }}
+    {{- end }}
