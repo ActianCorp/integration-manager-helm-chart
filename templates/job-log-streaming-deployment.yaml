@@ -19,7 +19,6 @@ spec:
     metadata:
       annotations:
         checksum/sharedconfig: {{ include (print $.Template.BasePath "/shared-configmap.yaml") . | sha256sum }}
-        checksum/aggsharedconfig: {{ include (print $.Template.BasePath "/aggregator-shared-configmap.yaml") . | sha256sum }}
         checksum/joblogstreamingconfig: {{ include (print $.Template.BasePath "/job-log-streaming-configmap.yaml") . | sha256sum }}
         checksum/secrets: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
         {{- if .Values.jobLogStreaming.podAnnotations }}
@@ -83,10 +82,6 @@ spec:
           readOnly: true
           mountPath: /etc/config/shared.properties
           subPath: application.properties
-        - name: aggregator-shared-volume
-          readOnly: true
-          mountPath: /etc/config/aggregator-config.yml
-          subPath: aggregator-config.yml
         - name: job-log-streaming-volume
           readOnly: true
           mountPath: /etc/config/application.properties
@@ -117,9 +112,6 @@ spec:
       - name: im-shared-volume
         configMap:
           name: {{ template "integration-manager.fullname" . }}-shared
-      - name: aggregator-shared-volume
-        configMap:
-          name:  {{ template "integration-manager.aggregator.fullname" . }}-shared
       - name: job-log-streaming-volume
         configMap:
           name: {{ template "integration-manager.job-log-streaming.fullname" . }}
