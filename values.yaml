@@ -242,6 +242,43 @@ jobExecution:
   service:
     annotations: {}
     type: ClusterIP
+jobLogStreaming:
+  image: actian/job-log-streaming:2.0.6.294
+  revisionHistoryLimit: 10
+  pdb: {}
+  affinity: {}
+  livenessProbe:
+    initialDelaySeconds: 120
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    httpGet:
+      scheme: HTTP
+      path: /health
+      port: 8080
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
+    httpGet:
+      scheme: HTTP
+      path: /health
+      port: 8080
+  pullPolicy: IfNotPresent
+  extraInitContainers: []
+  extraConfig: {}
+  replicaCount: 1
+  extraLabels: {}
+  podAnnotations: {}
+  resources: {}
+  nodeSelector: {}
+  podSecurityContext: {}
+  securityContext: {}
+  service:
+    annotations: {}
+    type: ClusterIP
 jobResultsProcessor:
   image: actian/job-results-processor:2.0.6.294
   revisionHistoryLimit: 10
