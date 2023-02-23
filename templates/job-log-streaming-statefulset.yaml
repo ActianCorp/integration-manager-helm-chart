@@ -120,7 +120,7 @@ spec:
       volumes:
         - name: kafka-rocksdb-storage
           persistentVolumeClaim:
-            claimName: kafka-rocksdb-storage-pvc
+            claimName: kafka-rocksdb-storage
         - name: im-shared-volume
           configMap:
             name: {{ template "integration-manager.fullname" . }}-shared
@@ -148,7 +148,7 @@ spec:
         {{- end }}
   volumeClaimTemplates:
     - metadata:
-        name: kafka-rocksdb-storage-pvc
+        name: kafka-rocksdb-storage
       spec:
         accessModes:
           - ReadWriteOnce
