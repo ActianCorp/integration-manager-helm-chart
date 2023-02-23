@@ -243,6 +243,7 @@ jobExecution:
     annotations: {}
     type: ClusterIP
 jobLogStreaming:
+  enabled: false
   image: actian/job-log-streaming:2.0.6.294
   revisionHistoryLimit: 10
   pdb: {}

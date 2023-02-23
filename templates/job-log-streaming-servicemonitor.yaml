@@ -1,4 +1,5 @@
-{{- if .Values.prometheus.operator.enabled }}
+{{- if .Values.jobLogStreaming.enabled }}
+  {{- if .Values.prometheus.operator.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -18,4 +19,5 @@ spec:
     path: '/prometheus'
     interval: {{ .Values.prometheus.operator.serviceMonitor.interval }}
     honorLabels: true
+  {{- end }}
 {{- end }}
