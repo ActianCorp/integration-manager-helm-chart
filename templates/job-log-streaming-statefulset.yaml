@@ -45,7 +45,7 @@ spec:
       {{- end }}
       {{- if .Values.jobLogStreaming.extraInitContainers }}
       initContainers:
-        {{ tpl .Values.jobLogStreaming.extraInitContainers . | indent 6 | trim }}
+        {{ tpl .Values.jobLogStreaming.extraInitContainers . | indent 8 | trim }}
       {{- end }}
       securityContext:
         {{- toYaml .Values.jobLogStreaming.podSecurityContext | nindent 8 }}
@@ -55,7 +55,7 @@ spec:
           imagePullPolicy: {{ .Values.jobLogStreaming.pullPolicy }}
           {{- if .Values.jobLogStreaming.securityContext }}
           securityContext:
-            {{- toYaml .Values.jobLogStreaming.securityContext | nindent 10 }}
+            {{- toYaml .Values.jobLogStreaming.securityContext | nindent 12 }}
           {{- end }}
           {{- if .Values.repository.awsCreateEnvVar }}
           env:
