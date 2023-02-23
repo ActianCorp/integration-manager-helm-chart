@@ -271,6 +271,7 @@ jobLogStreaming:
   extraInitContainers: []
   extraConfig: {}
   replicaCount: 1
+  perstistentStorageSize: 1Gb
   extraLabels: {}
   podAnnotations: {}
   resources: {}
