@@ -48,7 +48,7 @@ so truncation should be 63-22=41.
 
 {{/* Fullname suffixed with job-log-streaming */}}
 {{- define "integration-manager.job-log-streaming.fullname" -}}
-{{- printf "%s-job-log-streaming" (include "integration-manager.fullname" .) -}}
+{{- printf "log-streamer" -}}
 {{- end }}
 
 {{/* Fullname suffixed with job-results-processor */}}
