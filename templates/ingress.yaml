@@ -314,6 +314,7 @@ spec:
           path: /api/devices/*
           {{- end }}
           pathType: ImplementationSpecific
+        {{- if .Values.jobLogStreaming.enabled }}
         - backend:
             service:
               name: {{ template "integration-manager.job-log-streaming.fullname" . }}
@@ -325,6 +326,7 @@ spec:
           path: /api/jobs/([^\/]+\/logevents.*)
           {{- end }}
           pathType: ImplementationSpecific
+        {{- end }}
         - backend:
             service:
               name: {{ template "integration-manager.job-execution.fullname" . }}
