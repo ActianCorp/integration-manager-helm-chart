@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ template "integration-manager.job-log-streaming.shortname" . }}
+  name: {{ template "integration-manager.job-log-streaming.fullname" . }}
   labels:
     app: integration-manager
     component: job-log-streaming
     chart: {{ template "integration-manager.chart" . }}
     release: {{ .Release.Name }}
 spec:
-  serviceName: {{ template "integration-manager.job-log-streaming.shortname" . }}
+  serviceName: {{ template "integration-manager.job-log-streaming.fullname" . }}
   replicas: {{ .Values.jobLogStreaming.replicaCount }}
   revisionHistoryLimit: {{ .Values.jobLogStreaming.revisionHistoryLimit }}
   selector:
