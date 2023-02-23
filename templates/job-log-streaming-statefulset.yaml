@@ -1,3 +1,4 @@
+{{- if .Values.jobLogStreaming.enabled }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -98,7 +99,7 @@ spec:
               mountPath: /etc/secrets/amqp
             {{- end }}
             - name: kafka-rocksdb-storage
-              mountPath: /tmp/kafka-streams
+              mountPath: {{ .Values.jobLogStreaming.persistentStorageLocation }}
           {{- if .Values.jobLogStreaming.readinessProbe }}
           readinessProbe:
             {{ .Values.jobLogStreaming.readinessProbe | toYaml | indent 12 | trim }}
@@ -154,4 +155,5 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 1Gi
+            storage: {{ .Values.jobLogStreaming.perstistentStorageSize }}
+{{- end }}
