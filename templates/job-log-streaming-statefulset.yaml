@@ -155,5 +155,5 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 1Gi
+            storage: {{ .Values.jobLogStreaming.perstistentStorageSize }}
 {{- end }}
