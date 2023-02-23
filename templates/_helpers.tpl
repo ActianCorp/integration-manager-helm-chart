@@ -51,6 +51,11 @@ so truncation should be 63-22=41.
 {{- printf "%s-job-log-streaming" (include "integration-manager.fullname" .) -}}
 {{- end }}
 
+{{/* Short name for the log streaming pods. These are used to generate kafka changelog topics, which are already long enough as it is */}}
+{{- define "integration-manager.job-log-streaming.shortname" -}}
+{{- printf "log-streamer" -}}
+{{- end }}
+
 {{/* Fullname suffixed with job-results-processor */}}
 {{- define "integration-manager.job-results-processor.fullname" -}}
 {{- printf "%s-job-results-processor" (include "integration-manager.fullname" .) -}}
