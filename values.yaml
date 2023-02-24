@@ -271,7 +271,7 @@ jobLogStreaming:
   extraInitContainers: []
   extraConfig: {}
   replicaCount: 1
-  persistentStorageSize: 1Gb
+  persistentStorageSize: 1Gi
   persistentStorageLocation: /tmp/kafka-streams
   extraLabels: {}
   podAnnotations: {}
