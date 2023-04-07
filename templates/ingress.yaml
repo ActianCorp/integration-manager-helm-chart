@@ -287,6 +287,17 @@ spec:
               port:
                 number: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/jobconfigs\/.*\/jobmessage.*)
+          {{- else }}
+          path: /api/jobconfigs/.*/jobmessage
+          {{- end }}
+          pathType: ImplementationSpecific
+        - backend:
+            service:
+              name: {{ template "integration-manager.job-execution.fullname" . }}
+              port:
+                number: 8080
+          {{- if .Values.ingress.pathVersionPrefix }}
           path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/jobconfigs\/.*\/listener.*)
           {{- else }}
           path: /api/jobconfigs/.*/listener
