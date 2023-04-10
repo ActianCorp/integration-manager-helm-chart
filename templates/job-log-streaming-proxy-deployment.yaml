@@ -1,6 +1,6 @@
 {{- if .Values.jobLogStreamingProxy.enabled }}
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: {{ template "integration-manager.job-log-streaming-proxy.fullname" . }}
   labels:
@@ -9,7 +9,6 @@ metadata:
     chart: {{ template "integration-manager.chart" . }}
     release: {{ .Release.Name }}
 spec:
-  serviceName: {{ template "integration-manager.job-log-streaming-proxy.fullname" . }}
   replicas: {{ .Values.jobLogStreamingProxy.replicaCount }}
   revisionHistoryLimit: {{ .Values.jobLogStreamingProxy.revisionHistoryLimit }}
   selector:
