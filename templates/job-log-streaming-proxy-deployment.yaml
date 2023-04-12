@@ -119,7 +119,7 @@ spec:
         - name: im-shared-volume
           configMap:
             name: {{ template "integration-manager.fullname" . }}-shared
-        - name: job-log-streaming-volume
+        - name: job-log-streaming-proxy-volume
           configMap:
             name: {{ template "integration-manager.job-log-streaming-proxy.fullname" . }}
         - name: secret-volume
