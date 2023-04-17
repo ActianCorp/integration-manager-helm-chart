@@ -271,46 +271,6 @@ jobLogStreaming:
   extraInitContainers: []
   extraConfig: {}
   replicaCount: 1
-  persistentStorageSize: 1Gi
-  persistentStorageLocation: /tmp/kafka-streams
-  extraLabels: {}
-  podAnnotations: {}
-  resources: {}
-  nodeSelector: {}
-  podSecurityContext: {}
-  securityContext: {}
-  service:
-    annotations: {}
-    type: ClusterIP
-jobLogStreamingProxy:
-  enabled: false
-  image: actian/job-log-streaming-proxy:2.0.6.294
-  revisionHistoryLimit: 10
-  pdb: {}
-  affinity: {}
-  livenessProbe:
-    initialDelaySeconds: 120
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 3
-    httpGet:
-      scheme: HTTP
-      path: /health
-      port: 8080
-  readinessProbe:
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 3
-    successThreshold: 1
-    httpGet:
-      scheme: HTTP
-      path: /health
-      port: 8080
-  pullPolicy: IfNotPresent
-  extraInitContainers: []
-  extraConfig: {}
-  replicaCount: 1
   extraLabels: {}
   podAnnotations: {}
   resources: {}
