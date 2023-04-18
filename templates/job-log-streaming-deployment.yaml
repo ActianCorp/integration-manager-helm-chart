@@ -1,6 +1,6 @@
 {{- if .Values.jobLogStreaming.enabled }}
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: {{ template "integration-manager.job-log-streaming.fullname" . }}
   labels:
@@ -9,7 +9,6 @@ metadata:
     chart: {{ template "integration-manager.chart" . }}
     release: {{ .Release.Name }}
 spec:
-  serviceName: {{ template "integration-manager.job-log-streaming.fullname" . }}
   replicas: {{ .Values.jobLogStreaming.replicaCount }}
   revisionHistoryLimit: {{ .Values.jobLogStreaming.revisionHistoryLimit }}
   selector:
@@ -98,8 +97,6 @@ spec:
               readOnly: true
               mountPath: /etc/secrets/amqp
             {{- end }}
-            - name: kafka-rocksdb-storage
-              mountPath: {{ .Values.jobLogStreaming.persistentStorageLocation }}
           {{- if .Values.jobLogStreaming.readinessProbe }}
           readinessProbe:
             {{ .Values.jobLogStreaming.readinessProbe | toYaml | indent 12 | trim }}
@@ -119,9 +116,6 @@ spec:
         {{- end }}
       {{- end }}
       volumes:
-        - name: kafka-rocksdb-storage
-          persistentVolumeClaim:
-            claimName: kafka-rocksdb-storage
         - name: im-shared-volume
           configMap:
             name: {{ template "integration-manager.fullname" . }}-shared
@@ -147,13 +141,4 @@ spec:
               - key: rabbitmq-password
                 path: rabbitmq-password
         {{- end }}
-  volumeClaimTemplates:
-    - metadata:
-        name: kafka-rocksdb-storage
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: {{ .Values.jobLogStreaming.persistentStorageSize }}
 {{- end }}
