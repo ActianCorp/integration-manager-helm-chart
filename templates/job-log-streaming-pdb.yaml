@@ -1,6 +1,6 @@
 {{- if .Values.jobLogStreaming.enabled }}
   {{- if .Values.jobLogStreaming.pdb }}
-apiVersion: policy/v1beta1
+apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: {{ template "integration-manager.job-log-streaming.fullname" . }}
