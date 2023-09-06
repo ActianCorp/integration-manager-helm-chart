@@ -61,10 +61,14 @@ spec:
           readOnly: true
           mountPath: /etc/config/shared.properties
           subPath: application.properties
-        - name: job-scheduler-volume
+        - name: job-scheduler-application-properties
           readOnly: true
           mountPath: /etc/config/application.properties
           subPath: application.properties
+        - name: job-scheduler-quartz-properties
+          readOnly: true
+          mountPath: /etc/config/quartz.properties
+          subPath: quartz.properties
         - name: secret-volume
           readOnly: true
           mountPath: /etc/secrets
@@ -91,9 +95,18 @@ spec:
       - name: im-shared-volume
         configMap:
           name: {{ template "integration-manager.fullname" . }}-shared
-      - name: job-scheduler-volume
+      - name: job-scheduler-application-properties
         configMap:
           name:  {{ template "integration-manager.job-scheduler.fullname" . }}
+          items:
+          - key: application.properties
+            path: application.properties
+      - name: job-scheduler-quartz-properties
+        configMap:
+          name:  {{ template "integration-manager.job-scheduler.fullname" . }}
+          items:
+          - key: quartz.properties
+            path: quartz.properties
       - name: secret-volume
         secret:
         {{- if .Values.existingSecret }}
