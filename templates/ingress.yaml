@@ -325,6 +325,17 @@ spec:
           path: /api/devices/*
           {{- end }}
           pathType: ImplementationSpecific
+        - backend:
+            service:
+              name: {{ template "integration-manager.base.fullname" . }}
+              port:
+                number: 8080
+          {{- if .Values.ingress.pathVersionPrefix }}
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/tags.*)
+          {{- else }}
+          path: /api/tags
+          {{- end }}
+          pathType: ImplementationSpecific
         {{- if .Values.jobLogStreaming.enabled }}
         - backend:
             service:
