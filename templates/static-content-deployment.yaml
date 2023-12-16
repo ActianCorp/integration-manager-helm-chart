@@ -63,6 +63,11 @@ spec:
           readOnly: true
           mountPath: /usr/share/nginx/html/info/
         {{- end }}
+        {{- if .Values.staticContent.fileLoaders }}
+        - name: fileloaders-config
+          readOnly: true
+          mountPath: /usr/share/nginx/html/info/
+        {{- end }}
         {{- if .Values.staticContent.nginxConf }}
         - name: nginx-conf
           readOnly: true
@@ -93,6 +98,14 @@ spec:
           items:
             - key: whitelist.json
               path: whitelist.json
+      {{ end }}
+      {{- if .Values.staticContent.fileLoaders }}
+      - name: fileloaders-config
+        configMap:
+          name: {{ template "integration-manager.static-content.fullname" . }}
+          items:
+            - key: fileloaders.json
+              path: fileloaders.json
       {{ end }}
       {{- if .Values.staticContent.nginxConf }}
       - name: nginx-conf
