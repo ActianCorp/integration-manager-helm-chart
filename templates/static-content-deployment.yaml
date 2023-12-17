@@ -58,16 +58,9 @@ spec:
         - name: app-config
           readOnly: true
           mountPath: /opt/Actian/volume
-        {{- if .Values.staticContent.ipWhiteList }}
-        - name: whitelist-config
+        - name: info-metadata
           readOnly: true
           mountPath: /usr/share/nginx/html/info/
-        {{- end }}
-        {{- if .Values.staticContent.fileLoaders }}
-        - name: fileloaders-config
-          readOnly: true
-          mountPath: /usr/share/nginx/html/info/
-        {{- end }}
         {{- if .Values.staticContent.nginxConf }}
         - name: nginx-conf
           readOnly: true
@@ -92,7 +85,7 @@ spec:
         configMap:
           name: {{ template "integration-manager.static-content.fullname" . }}
       {{- if .Values.staticContent.ipWhiteList }}
-      - name: whitelist-config
+      - name: info-metadata
         configMap:
           name: {{ template "integration-manager.static-content.fullname" . }}
           items:
@@ -100,7 +93,7 @@ spec:
               path: whitelist.json
       {{ end }}
       {{- if .Values.staticContent.fileLoaders }}
-      - name: fileloaders-config
+      - name: info-metadata
         configMap:
           name: {{ template "integration-manager.static-content.fullname" . }}
           items:
