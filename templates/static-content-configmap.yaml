@@ -15,10 +15,6 @@ data:
   whitelist.json: |
     {{ .Values.staticContent.ipWhiteList | toString | indent 4 | trim }}
   {{- end }}
-  {{- if .Values.staticContent.fileLoaders }}
-  fileloaders.json: |
-    {{ .Values.staticContent.fileLoaders | toString | indent 4 | trim }}
-  {{- end }}
   {{- if .Values.staticContent.nginxConf }}
   nginx.conf: |
     {{ .Values.staticContent.nginxConf | toString | indent 4 | trim  }}
