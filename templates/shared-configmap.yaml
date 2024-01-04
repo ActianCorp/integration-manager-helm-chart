@@ -30,8 +30,8 @@ data:
 
     #AMQP
     queue.port={{ .Values.amqp.port }}
-    # This is a hack to map existing secrets, rabbitmq-host, rabbitmq-username & rabbitmq-password, to our custom queue properties
-    queue.host=${rabbitmq-host}
+    queue.host={{ .Values.amqp.host }}
+    # Re-assign rabbitmq-username & rabbitmq-password secret keys to queue properties
     queue.username=${rabbitmq-username}
     queue.password=${rabbitmq-password}
     queue.ssl.enabled={{ .Values.amqp.sslEnabled }}
