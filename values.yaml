@@ -7,8 +7,8 @@
 imagePullSecrets: []
 serviceAccount:
   annotations: {}
-# Extra values to be added to application.properties
-extraConfig: {}
+extraConfig: |
+  # Extra application.properties
 aggregator:
   image: actian/aggregator-service:2.0.6.294
   # Aggregator Configuration List
@@ -71,7 +71,8 @@ aggregator:
       port: 8080
   pullPolicy: IfNotPresent
   extraInitContainers: []
-  extraConfig: {}
+  extraConfig: |
+    # Extra application.properties
   pdb: {}
     #minAvailable: 1
   replicaCount: 1
@@ -121,7 +122,8 @@ aggregatorProcessor:
       port: 8080
   pullPolicy: IfNotPresent
   extraInitContainers: []
-  extraConfig: {}
+  extraConfig: |
+    # Extra application.properties
   replicaCount: 1
   extraLabels: {}
   podAnnotations: {}
@@ -168,7 +170,8 @@ integrationManagerBase:
       port: 8080
   pullPolicy: IfNotPresent
   extraInitContainers: []
-  extraConfig: {}
+  extraConfig: |
+    # Extra application.properties
   javaOpts: ""
   replicaCount: 1
   extraLabels: {}
@@ -219,7 +222,8 @@ jobExecution:
       port: 8080
   pullPolicy: IfNotPresent
   extraInitContainers: []
-  extraConfig: {}
+  extraConfig: |
+    # Extra application.properties
   replicaCount: 1
   extraLabels: {}
   podAnnotations: {}
@@ -269,7 +273,8 @@ jobLogStreaming:
       port: 8080
   pullPolicy: IfNotPresent
   extraInitContainers: []
-  extraConfig: {}
+  extraConfig: |
+    # Extra application.properties
   replicaCount: 1
   extraLabels: {}
   podAnnotations: {}
@@ -307,7 +312,8 @@ jobResultsProcessor:
       port: 8080
   pullPolicy: IfNotPresent
   extraInitContainers: []
-  extraConfig: {}
+  extraConfig: |
+    # Extra application.properties
   replicaCount: 1
   extraLabels: {}
   podAnnotations: {}
@@ -357,7 +363,8 @@ jobScheduler:
       port: 8080
   pullPolicy: IfNotPresent
   extraInitContainers: []
-  extraConfig: {}
+  extraConfig: |
+    # Extra application.properties
   replicaCount: 1
   extraLabels: {}
   podAnnotations: {}
