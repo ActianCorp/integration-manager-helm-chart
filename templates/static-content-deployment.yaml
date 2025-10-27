@@ -52,6 +52,13 @@ spec:
         imagePullPolicy: {{ .Values.staticContent.pullPolicy }}
         securityContext:
           {{- toYaml .Values.staticContent.securityContext | nindent 10 }}
+        env:
+        {{- with .Values.extraEnvVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.staticContent.extraEnvVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         ports:
         - containerPort: 8080
         volumeMounts:
