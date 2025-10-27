@@ -54,6 +54,13 @@ spec:
         imagePullPolicy: {{ .Values.jobScheduler.pullPolicy }}
         securityContext:
           {{- toYaml .Values.jobScheduler.securityContext | nindent 10 }}
+        env:
+        {{- with .Values.extraEnvVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.jobScheduler.extraEnvVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         ports:
         - containerPort: 8080
         volumeMounts:

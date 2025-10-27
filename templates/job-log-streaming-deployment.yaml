@@ -57,27 +57,13 @@ spec:
           securityContext:
             {{- toYaml .Values.jobLogStreaming.securityContext | nindent 12 }}
           {{- end }}
-          {{- if .Values.repository.awsCreateEnvVar }}
           env:
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  key: aws-access-key
-              {{- if .Values.existingSecret }}
-                  name: {{ .Values.existingSecret }}
-              {{- else }}
-                  name: {{ template "integration-manager.fullname" . }}
-              {{- end }}
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: aws-secret-key
-              {{- if .Values.existingSecret }}
-                  name: {{ .Values.existingSecret }}
-              {{- else }}
-                  name: {{ template "integration-manager.fullname" . }}
-              {{- end }}
-          {{- end }}
+        {{- with .Values.extraEnvVars }}
+        {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.jobLogStreaming.extraEnvVars }}
+        {{- toYaml . | nindent 10 }}
+        {{- end }}
           ports:
             - containerPort: 8080
           volumeMounts:
