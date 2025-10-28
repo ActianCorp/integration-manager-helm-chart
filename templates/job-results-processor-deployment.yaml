@@ -55,25 +55,11 @@ spec:
         securityContext:
           {{- toYaml .Values.jobResultsProcessor.securityContext | nindent 10 }}
         env:
-        {{- if .Values.repository.awsCreateEnvVar }}
-        - name: AWS_ACCESS_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: aws-access-key
-              {{- if .Values.existingSecret }}
-              name: {{ .Values.existingSecret }}
-              {{- else }}
-              name: {{ template "integration-manager.fullname" . }}
-              {{- end }}
-        - name: AWS_SECRET_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              key: aws-secret-key
-              {{- if .Values.existingSecret }}
-              name: {{ .Values.existingSecret }}
-              {{- else }}
-              name: {{ template "integration-manager.fullname" . }}
-              {{- end }}
+        {{- with .Values.extraEnvVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.jobResultsProcessor.extraEnvVars }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
         ports:
         - containerPort: 8080
