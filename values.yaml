@@ -9,8 +9,10 @@ serviceAccount:
   annotations: {}
 extraConfig: |
   # Extra application.properties
+extraEnvVars: [] # Extra environment variables to be added to all deployments
 aggregator:
   image: actian/aggregator-service:2.0.6.294
+  extraEnvVars: [] # Extra environment variables to be added to this deployment
   # Aggregator Configuration List
   config: []
 #  config:
@@ -107,6 +109,7 @@ aggregator:
     type: ClusterIP
 aggregatorProcessor:
   image: actian/aggregator-processor:2.0.6.294
+  extraEnvVars: [] # Extra environment variables to be added to this deployment
   revisionHistoryLimit: 10
   pdb: {}
     #minAvailable: 1
@@ -145,6 +148,7 @@ aggregatorProcessor:
   #  readOnlyRootFilesystem: true
 integrationManagerBase:
   image: actian/integration-manager-base:2.0.6.294
+  extraEnvVars: [] # Extra environment variables to be added to this deployment
   revisionHistoryLimit: 10
   pdb: {}
     #minAvailable: 1
@@ -197,6 +201,7 @@ integrationManagerBase:
     type: ClusterIP
 jobExecution:
   image: actian/job-execution-service:2.0.6.294
+  extraEnvVars: [] # Extra environment variables to be added to this deployment
   revisionHistoryLimit: 10
   pdb: {}
     #minAvailable: 1
@@ -249,6 +254,7 @@ jobExecution:
 jobLogStreaming:
   enabled: false
   image: actian/job-log-streaming:2.0.6.294
+  extraEnvVars: [] # Extra environment variables to be added to this deployment
   revisionHistoryLimit: 10
   pdb: {}
   affinity: {}
@@ -287,6 +293,7 @@ jobLogStreaming:
     type: ClusterIP
 jobResultsProcessor:
   image: actian/job-results-processor:2.0.6.294
+  extraEnvVars: [] # Extra environment variables to be added to this deployment
   revisionHistoryLimit: 10
   pdb: {}
     #minAvailable: 1
@@ -338,6 +345,7 @@ jobResultsProcessor:
     type: ClusterIP
 jobScheduler:
   image: actian/job-scheduler-service:2.0.6.294
+  extraEnvVars: [] # Extra environment variables to be added to this deployment
   revisionHistoryLimit: 10
   pdb: {}
     #minAvailable: 1
@@ -389,6 +397,7 @@ jobScheduler:
     type: ClusterIP
 staticContent:
   image: actian/integration-manager-static-content:2.0.6.294
+  extraEnvVars: [] # Extra environment variables to be added to this deployment
   revisionHistoryLimit: 10
   pdb: {}
   #minAvailable: 1
@@ -541,9 +550,6 @@ repository:
   awsSigningRegion: us-east-1
   azureConnectString:
   nestedJobStorage: false
-  awsCreateEnvVar: false
-  awsAccessKeyId:
-  awsSecretAccessKey:
 
   # Agent File Storage
 agent:
