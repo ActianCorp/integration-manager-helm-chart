@@ -1,0 +1,26 @@
+{{- if .Values.jobSocketExecutor.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "integration-manager.job-socket-executor.fullname" . }}
+  {{- if .Values.jobSocketExecutor.service.annotations }}
+  annotations:
+    {{ .Values.jobSocketExecutor.service.annotations  | toYaml | indent 4 | trim }}
+  {{- end }}
+  labels:
+    app: integration-manager
+    component: job-socket-executor
+    chart: {{ template "integration-manager.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+  ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: integration-manager
+    component: job-socket-executor
+    release: {{ .Release.Name }}
+  type: "{{ .Values.jobSocketExecutor.service.type }}"
+{{- end }}

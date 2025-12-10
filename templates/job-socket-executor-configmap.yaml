@@ -1,0 +1,15 @@
+{{- if .Values.jobSocketExecutor.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "integration-manager.job-socket-executor.fullname" . }}
+  labels:
+    app: integration-manager
+    chart: {{ template "integration-manager.chart" . }}
+    release: {{ .Release.Name }}
+data:
+  application.properties: |
+    {{- if .Values.jobSocketExecutor.extraConfig }}
+    {{ .Values.jobSocketExecutor.extraConfig | indent 4 | trim }}
+    {{- end }}
+{{- end }}

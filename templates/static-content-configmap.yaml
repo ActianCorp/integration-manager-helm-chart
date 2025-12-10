@@ -8,9 +8,9 @@ metadata:
     release: {{ .Release.Name }}
 data:
   appConfig.json: |
-    {{ required "config.appConfig is required " .Values.staticContent.appConfig | toString | indent 4 | trim  }}
+    {{ .Values.staticContent.appConfig | toString | indent 4 | trim  }}
   aopAppConfig.json: |
-    {{ required "staticContent.aopAppConfig is required " .Values.staticContent.aopAppConfig | toString | indent 4 | trim  }}
+    {{ .Values.staticContent.aopAppConfig | toString | indent 4 | trim  }}
   {{- if .Values.staticContent.ipWhiteList }}
   whitelist.json: |
     {{ .Values.staticContent.ipWhiteList | toString | indent 4 | trim }}

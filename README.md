@@ -1,231 +1,371 @@
-# integration-manager-helm-chart
+# integration-manager
 
-## Introduction
+![Version: 1.2.93](https://img.shields.io/badge/Version-1.2.93-informational?style=flat-square) ![AppVersion: 2.0.5](https://img.shields.io/badge/AppVersion-2.0.5-informational?style=flat-square)
 
-This chart installs Integration Manager on Kubernetes. 
+A Helm chart to install Integration Manager on Kubernetes
 
-Refer to the following chart for installing Integration Manager Workers:  
-https://github.com/ActianCorp/integration-manager-worker-helm-chart
+## Values
 
-Refer to the following chart for installing the AMQP Pod Autoscaler for Integration Manager Workers:  
-https://github.com/ActianCorp/amqp-pod-autoscaler-helm-chart
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| agent.baseUrl | string | `nil` |  |
+| agent.linuxEngine | string | `nil` |  |
+| agent.windowsEngine | string | `nil` |  |
+| aggregator.affinity | object | `{}` |  |
+| aggregator.config | list | `[]` |  |
+| aggregator.extraConfig | string | `"# Extra application.properties\n"` |  |
+| aggregator.extraEnvVars | list | `[]` |  |
+| aggregator.extraInitContainers | list | `[]` |  |
+| aggregator.extraLabels | object | `{}` |  |
+| aggregator.image | string | `"actian/aggregator-service:2.0.6.294"` |  |
+| aggregator.livenessProbe.failureThreshold | int | `3` |  |
+| aggregator.livenessProbe.httpGet.path | string | `"/health"` |  |
+| aggregator.livenessProbe.httpGet.port | int | `8080` |  |
+| aggregator.livenessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| aggregator.livenessProbe.initialDelaySeconds | int | `120` |  |
+| aggregator.livenessProbe.periodSeconds | int | `10` |  |
+| aggregator.livenessProbe.timeoutSeconds | int | `5` |  |
+| aggregator.nodeSelector | object | `{}` |  |
+| aggregator.pdb | object | `{}` |  |
+| aggregator.podAnnotations | object | `{}` |  |
+| aggregator.podSecurityContext | object | `{}` |  |
+| aggregator.pullPolicy | string | `"IfNotPresent"` |  |
+| aggregator.readinessProbe.failureThreshold | int | `3` |  |
+| aggregator.readinessProbe.httpGet.path | string | `"/health"` |  |
+| aggregator.readinessProbe.httpGet.port | int | `8080` |  |
+| aggregator.readinessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| aggregator.readinessProbe.initialDelaySeconds | int | `30` |  |
+| aggregator.readinessProbe.periodSeconds | int | `10` |  |
+| aggregator.readinessProbe.successThreshold | int | `1` |  |
+| aggregator.readinessProbe.timeoutSeconds | int | `5` |  |
+| aggregator.replicaCount | int | `1` |  |
+| aggregator.resources | object | `{}` |  |
+| aggregator.revisionHistoryLimit | int | `10` |  |
+| aggregator.securityContext | object | `{}` |  |
+| aggregator.service.annotations | object | `{}` |  |
+| aggregator.service.type | string | `"ClusterIP"` |  |
+| aggregatorProcessor.affinity | object | `{}` |  |
+| aggregatorProcessor.extraConfig | string | `"# Extra application.properties\n"` |  |
+| aggregatorProcessor.extraEnvVars | list | `[]` |  |
+| aggregatorProcessor.extraInitContainers | list | `[]` |  |
+| aggregatorProcessor.extraLabels | object | `{}` |  |
+| aggregatorProcessor.image | string | `"actian/aggregator-processor:2.0.6.294"` |  |
+| aggregatorProcessor.livenessProbe.failureThreshold | int | `3` |  |
+| aggregatorProcessor.livenessProbe.httpGet.path | string | `"/health"` |  |
+| aggregatorProcessor.livenessProbe.httpGet.port | int | `8080` |  |
+| aggregatorProcessor.livenessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| aggregatorProcessor.livenessProbe.initialDelaySeconds | int | `120` |  |
+| aggregatorProcessor.livenessProbe.periodSeconds | int | `10` |  |
+| aggregatorProcessor.livenessProbe.timeoutSeconds | int | `5` |  |
+| aggregatorProcessor.nodeSelector | object | `{}` |  |
+| aggregatorProcessor.pdb | object | `{}` |  |
+| aggregatorProcessor.podAnnotations | object | `{}` |  |
+| aggregatorProcessor.podSecurityContext | object | `{}` |  |
+| aggregatorProcessor.pullPolicy | string | `"IfNotPresent"` |  |
+| aggregatorProcessor.replicaCount | int | `1` |  |
+| aggregatorProcessor.resources | object | `{}` |  |
+| aggregatorProcessor.revisionHistoryLimit | int | `10` |  |
+| aggregatorProcessor.securityContext | object | `{}` |  |
+| amqp.externalHost | string | `nil` |  |
+| amqp.externalPort | int | `5672` |  |
+| amqp.externalSslEnabled | bool | `false` |  |
+| amqp.host | string | `nil` |  |
+| amqp.managementUrl | string | `nil` |  |
+| amqp.password | string | `nil` |  |
+| amqp.port | int | `5672` |  |
+| amqp.sslEnabled | bool | `false` |  |
+| amqp.sslKeyStore | string | `nil` |  |
+| amqp.sslKeyStorePassword | string | `nil` |  |
+| amqp.sslKeyStoreType | string | `"PKCS12"` |  |
+| amqp.sslProtocol | string | `"TLSv1.2"` |  |
+| amqp.username | string | `nil` |  |
+| cache.enable | bool | `false` |  |
+| datasource.maximumPoolSize | int | `10` |  |
+| datasource.minimumIdle | int | `2` |  |
+| datasource.password | string | `nil` |  |
+| datasource.url | string | `nil` |  |
+| datasource.username | string | `nil` |  |
+| destinationId | int | `1` |  |
+| encryption.certificateName | string | `nil` |  |
+| encryption.enabled | bool | `false` |  |
+| encryption.keyStore | string | `nil` |  |
+| encryption.keyStorePassword | string | `nil` |  |
+| encryption.passwordEncoderType | string | `"bcrypt"` |  |
+| existingRabbitSecret | string | `""` |  |
+| existingSecret | string | `""` |  |
+| extraConfig | string | `"# Extra application.properties\n"` |  |
+| extraEnvVars | list | `[]` |  |
+| imBaseUrl | string | `nil` |  |
+| imagePullSecrets | list | `[]` |  |
+| ingress.annotations | object | `{}` |  |
+| ingress.enabled | bool | `true` |  |
+| ingress.hostName | string | `nil` |  |
+| ingress.pathVersionPrefix | string | `nil` |  |
+| ingress.tls | bool | `false` |  |
+| ingress.tlsSecret | string | `nil` |  |
+| integrationManagerBase.affinity | object | `{}` |  |
+| integrationManagerBase.extraConfig | string | `"# Extra application.properties\n"` |  |
+| integrationManagerBase.extraEnvVars | list | `[]` |  |
+| integrationManagerBase.extraInitContainers | list | `[]` |  |
+| integrationManagerBase.extraLabels | object | `{}` |  |
+| integrationManagerBase.image | string | `"actian/integration-manager-base:2.0.6.294"` |  |
+| integrationManagerBase.javaOpts | string | `""` |  |
+| integrationManagerBase.livenessProbe.failureThreshold | int | `3` |  |
+| integrationManagerBase.livenessProbe.httpGet.path | string | `"/health"` |  |
+| integrationManagerBase.livenessProbe.httpGet.port | int | `8080` |  |
+| integrationManagerBase.livenessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| integrationManagerBase.livenessProbe.initialDelaySeconds | int | `120` |  |
+| integrationManagerBase.livenessProbe.periodSeconds | int | `10` |  |
+| integrationManagerBase.livenessProbe.timeoutSeconds | int | `5` |  |
+| integrationManagerBase.nodeSelector | object | `{}` |  |
+| integrationManagerBase.pdb | object | `{}` |  |
+| integrationManagerBase.podAnnotations | object | `{}` |  |
+| integrationManagerBase.podSecurityContext | object | `{}` |  |
+| integrationManagerBase.pullPolicy | string | `"IfNotPresent"` |  |
+| integrationManagerBase.readinessProbe.failureThreshold | int | `3` |  |
+| integrationManagerBase.readinessProbe.httpGet.path | string | `"/health"` |  |
+| integrationManagerBase.readinessProbe.httpGet.port | int | `8080` |  |
+| integrationManagerBase.readinessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| integrationManagerBase.readinessProbe.initialDelaySeconds | int | `30` |  |
+| integrationManagerBase.readinessProbe.periodSeconds | int | `10` |  |
+| integrationManagerBase.readinessProbe.successThreshold | int | `1` |  |
+| integrationManagerBase.readinessProbe.timeoutSeconds | int | `5` |  |
+| integrationManagerBase.replicaCount | int | `1` |  |
+| integrationManagerBase.resources | object | `{}` |  |
+| integrationManagerBase.revisionHistoryLimit | int | `10` |  |
+| integrationManagerBase.securityContext | object | `{}` |  |
+| integrationManagerBase.service.annotations | object | `{}` |  |
+| integrationManagerBase.service.type | string | `"ClusterIP"` |  |
+| jms.host | string | `nil` |  |
+| jms.password | string | `nil` |  |
+| jms.port | string | `nil` |  |
+| jms.username | string | `nil` |  |
+| jobExecution.affinity | object | `{}` |  |
+| jobExecution.extraConfig | string | `"# Extra application.properties\n"` |  |
+| jobExecution.extraEnvVars | list | `[]` |  |
+| jobExecution.extraInitContainers | list | `[]` |  |
+| jobExecution.extraLabels | object | `{}` |  |
+| jobExecution.image | string | `"actian/job-execution-service:2.0.6.294"` |  |
+| jobExecution.livenessProbe.failureThreshold | int | `3` |  |
+| jobExecution.livenessProbe.httpGet.path | string | `"/health"` |  |
+| jobExecution.livenessProbe.httpGet.port | int | `8080` |  |
+| jobExecution.livenessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| jobExecution.livenessProbe.initialDelaySeconds | int | `120` |  |
+| jobExecution.livenessProbe.periodSeconds | int | `10` |  |
+| jobExecution.livenessProbe.timeoutSeconds | int | `5` |  |
+| jobExecution.nodeSelector | object | `{}` |  |
+| jobExecution.pdb | object | `{}` |  |
+| jobExecution.podAnnotations | object | `{}` |  |
+| jobExecution.podSecurityContext | object | `{}` |  |
+| jobExecution.pullPolicy | string | `"IfNotPresent"` |  |
+| jobExecution.readinessProbe.failureThreshold | int | `3` |  |
+| jobExecution.readinessProbe.httpGet.path | string | `"/health"` |  |
+| jobExecution.readinessProbe.httpGet.port | int | `8080` |  |
+| jobExecution.readinessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| jobExecution.readinessProbe.initialDelaySeconds | int | `30` |  |
+| jobExecution.readinessProbe.periodSeconds | int | `10` |  |
+| jobExecution.readinessProbe.successThreshold | int | `1` |  |
+| jobExecution.readinessProbe.timeoutSeconds | int | `5` |  |
+| jobExecution.replicaCount | int | `1` |  |
+| jobExecution.resources | object | `{}` |  |
+| jobExecution.revisionHistoryLimit | int | `10` |  |
+| jobExecution.securityContext | object | `{}` |  |
+| jobExecution.service.annotations | object | `{}` |  |
+| jobExecution.service.type | string | `"ClusterIP"` |  |
+| jobLogStreaming.affinity | object | `{}` |  |
+| jobLogStreaming.enabled | bool | `false` |  |
+| jobLogStreaming.extraConfig | string | `"# Extra application.properties\n"` |  |
+| jobLogStreaming.extraEnvVars | list | `[]` |  |
+| jobLogStreaming.extraInitContainers | list | `[]` |  |
+| jobLogStreaming.extraLabels | object | `{}` |  |
+| jobLogStreaming.image | string | `"actian/job-log-streaming:2.0.6.294"` |  |
+| jobLogStreaming.livenessProbe.failureThreshold | int | `3` |  |
+| jobLogStreaming.livenessProbe.httpGet.path | string | `"/health"` |  |
+| jobLogStreaming.livenessProbe.httpGet.port | int | `8080` |  |
+| jobLogStreaming.livenessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| jobLogStreaming.livenessProbe.initialDelaySeconds | int | `120` |  |
+| jobLogStreaming.livenessProbe.periodSeconds | int | `10` |  |
+| jobLogStreaming.livenessProbe.timeoutSeconds | int | `5` |  |
+| jobLogStreaming.nodeSelector | object | `{}` |  |
+| jobLogStreaming.pdb | object | `{}` |  |
+| jobLogStreaming.podAnnotations | object | `{}` |  |
+| jobLogStreaming.podSecurityContext | object | `{}` |  |
+| jobLogStreaming.pullPolicy | string | `"IfNotPresent"` |  |
+| jobLogStreaming.readinessProbe.failureThreshold | int | `3` |  |
+| jobLogStreaming.readinessProbe.httpGet.path | string | `"/health"` |  |
+| jobLogStreaming.readinessProbe.httpGet.port | int | `8080` |  |
+| jobLogStreaming.readinessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| jobLogStreaming.readinessProbe.initialDelaySeconds | int | `30` |  |
+| jobLogStreaming.readinessProbe.periodSeconds | int | `10` |  |
+| jobLogStreaming.readinessProbe.successThreshold | int | `1` |  |
+| jobLogStreaming.readinessProbe.timeoutSeconds | int | `5` |  |
+| jobLogStreaming.replicaCount | int | `1` |  |
+| jobLogStreaming.resources | object | `{}` |  |
+| jobLogStreaming.revisionHistoryLimit | int | `10` |  |
+| jobLogStreaming.securityContext | object | `{}` |  |
+| jobLogStreaming.service.annotations | object | `{}` |  |
+| jobLogStreaming.service.type | string | `"ClusterIP"` |  |
+| jobResultsProcessor.affinity | object | `{}` |  |
+| jobResultsProcessor.extraConfig | string | `"# Extra application.properties\n"` |  |
+| jobResultsProcessor.extraEnvVars | list | `[]` |  |
+| jobResultsProcessor.extraInitContainers | list | `[]` |  |
+| jobResultsProcessor.extraLabels | object | `{}` |  |
+| jobResultsProcessor.image | string | `"actian/job-results-processor:2.0.6.294"` |  |
+| jobResultsProcessor.livenessProbe.failureThreshold | int | `3` |  |
+| jobResultsProcessor.livenessProbe.httpGet.path | string | `"/health"` |  |
+| jobResultsProcessor.livenessProbe.httpGet.port | int | `8080` |  |
+| jobResultsProcessor.livenessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| jobResultsProcessor.livenessProbe.initialDelaySeconds | int | `120` |  |
+| jobResultsProcessor.livenessProbe.periodSeconds | int | `10` |  |
+| jobResultsProcessor.livenessProbe.timeoutSeconds | int | `5` |  |
+| jobResultsProcessor.nodeSelector | object | `{}` |  |
+| jobResultsProcessor.pdb | object | `{}` |  |
+| jobResultsProcessor.podAnnotations | object | `{}` |  |
+| jobResultsProcessor.podSecurityContext | object | `{}` |  |
+| jobResultsProcessor.pullPolicy | string | `"IfNotPresent"` |  |
+| jobResultsProcessor.readinessProbe.failureThreshold | int | `3` |  |
+| jobResultsProcessor.readinessProbe.httpGet.path | string | `"/health"` |  |
+| jobResultsProcessor.readinessProbe.httpGet.port | int | `8080` |  |
+| jobResultsProcessor.readinessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| jobResultsProcessor.readinessProbe.initialDelaySeconds | int | `30` |  |
+| jobResultsProcessor.readinessProbe.periodSeconds | int | `10` |  |
+| jobResultsProcessor.readinessProbe.successThreshold | int | `1` |  |
+| jobResultsProcessor.readinessProbe.timeoutSeconds | int | `5` |  |
+| jobResultsProcessor.replicaCount | int | `1` |  |
+| jobResultsProcessor.resources | object | `{}` |  |
+| jobResultsProcessor.revisionHistoryLimit | int | `10` |  |
+| jobResultsProcessor.securityContext | object | `{}` |  |
+| jobResultsProcessor.service.annotations | object | `{}` |  |
+| jobResultsProcessor.service.type | string | `"ClusterIP"` |  |
+| jobScheduler.affinity | object | `{}` |  |
+| jobScheduler.extraConfig | string | `"# Extra application.properties\n"` |  |
+| jobScheduler.extraEnvVars | list | `[]` |  |
+| jobScheduler.extraInitContainers | list | `[]` |  |
+| jobScheduler.extraLabels | object | `{}` |  |
+| jobScheduler.image | string | `"actian/job-scheduler-service:2.0.6.294"` |  |
+| jobScheduler.livenessProbe.failureThreshold | int | `3` |  |
+| jobScheduler.livenessProbe.httpGet.path | string | `"/health"` |  |
+| jobScheduler.livenessProbe.httpGet.port | int | `8080` |  |
+| jobScheduler.livenessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| jobScheduler.livenessProbe.initialDelaySeconds | int | `120` |  |
+| jobScheduler.livenessProbe.periodSeconds | int | `10` |  |
+| jobScheduler.livenessProbe.timeoutSeconds | int | `5` |  |
+| jobScheduler.nodeSelector | object | `{}` |  |
+| jobScheduler.pdb | object | `{}` |  |
+| jobScheduler.podAnnotations | object | `{}` |  |
+| jobScheduler.podSecurityContext | object | `{}` |  |
+| jobScheduler.pullPolicy | string | `"IfNotPresent"` |  |
+| jobScheduler.readinessProbe.failureThreshold | int | `3` |  |
+| jobScheduler.readinessProbe.httpGet.path | string | `"/health"` |  |
+| jobScheduler.readinessProbe.httpGet.port | int | `8080` |  |
+| jobScheduler.readinessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| jobScheduler.readinessProbe.initialDelaySeconds | int | `30` |  |
+| jobScheduler.readinessProbe.periodSeconds | int | `10` |  |
+| jobScheduler.readinessProbe.successThreshold | int | `1` |  |
+| jobScheduler.readinessProbe.timeoutSeconds | int | `5` |  |
+| jobScheduler.replicaCount | int | `1` |  |
+| jobScheduler.resources | object | `{}` |  |
+| jobScheduler.revisionHistoryLimit | int | `10` |  |
+| jobScheduler.securityContext | object | `{}` |  |
+| jobScheduler.service.annotations | object | `{}` |  |
+| jobScheduler.service.type | string | `"ClusterIP"` |  |
+| jobSocketExecutor.affinity | object | `{}` |  |
+| jobSocketExecutor.enabled | bool | `false` |  |
+| jobSocketExecutor.extraConfig | string | `"# Extra application.properties\n"` |  |
+| jobSocketExecutor.extraEnvVars | list | `[]` |  |
+| jobSocketExecutor.extraInitContainers | list | `[]` |  |
+| jobSocketExecutor.extraLabels | object | `{}` |  |
+| jobSocketExecutor.image | string | `"actian/job-socket-executor:3.4.0-SNAPSHOT"` |  |
+| jobSocketExecutor.livenessProbe.failureThreshold | int | `3` |  |
+| jobSocketExecutor.livenessProbe.httpGet.path | string | `"/health"` |  |
+| jobSocketExecutor.livenessProbe.httpGet.port | int | `8080` |  |
+| jobSocketExecutor.livenessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| jobSocketExecutor.livenessProbe.initialDelaySeconds | int | `120` |  |
+| jobSocketExecutor.livenessProbe.periodSeconds | int | `10` |  |
+| jobSocketExecutor.livenessProbe.timeoutSeconds | int | `5` |  |
+| jobSocketExecutor.nodeSelector | object | `{}` |  |
+| jobSocketExecutor.pdb | object | `{}` |  |
+| jobSocketExecutor.podAnnotations | object | `{}` |  |
+| jobSocketExecutor.podSecurityContext | object | `{}` |  |
+| jobSocketExecutor.pullPolicy | string | `"IfNotPresent"` |  |
+| jobSocketExecutor.readinessProbe.failureThreshold | int | `3` |  |
+| jobSocketExecutor.readinessProbe.httpGet.path | string | `"/health"` |  |
+| jobSocketExecutor.readinessProbe.httpGet.port | int | `8080` |  |
+| jobSocketExecutor.readinessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| jobSocketExecutor.readinessProbe.initialDelaySeconds | int | `30` |  |
+| jobSocketExecutor.readinessProbe.periodSeconds | int | `10` |  |
+| jobSocketExecutor.readinessProbe.successThreshold | int | `1` |  |
+| jobSocketExecutor.readinessProbe.timeoutSeconds | int | `5` |  |
+| jobSocketExecutor.replicaCount | int | `1` |  |
+| jobSocketExecutor.resources | object | `{}` |  |
+| jobSocketExecutor.revisionHistoryLimit | int | `10` |  |
+| jobSocketExecutor.securityContext | object | `{}` |  |
+| jobSocketExecutor.service.annotations | object | `{}` |  |
+| jobSocketExecutor.service.type | string | `"ClusterIP"` |  |
+| jobTimeOut | int | `30` |  |
+| notification.enabled | bool | `false` |  |
+| notification.mailFrom | string | `nil` |  |
+| notification.mailTo | string | `nil` |  |
+| notification.springMailAuth | bool | `true` |  |
+| notification.springMailHost | string | `"smtp.gmail.com"` |  |
+| notification.springMailPassword | string | `nil` |  |
+| notification.springMailPort | int | `587` |  |
+| notification.springMailProtocol | string | `"smtp"` |  |
+| notification.springMailTLSEnable | bool | `true` |  |
+| notification.springMailTLSRequired | bool | `true` |  |
+| notification.springMailUsername | string | `nil` |  |
+| repository.accountDir | string | `"account"` |  |
+| repository.awsServiceEndpoint | string | `"s3.us-east-1.amazonaws.com"` |  |
+| repository.awsSigningRegion | string | `"us-east-1"` |  |
+| repository.azureConnectString | string | `nil` |  |
+| repository.jobConfigDir | string | `"configuration"` |  |
+| repository.jobTemplateDir | string | `"template"` |  |
+| repository.localTempDir | string | `"tmp"` |  |
+| repository.nestedJobStorage | bool | `false` |  |
+| repository.sourceBucket | string | `nil` |  |
+| repository.sourcePrefix | string | `"repository"` |  |
+| repository.storageType | string | `"aws"` |  |
+| repository.targetBucket | string | `nil` |  |
+| repository.targetPrefix | string | `"history/job"` |  |
+| repository.userDir | string | `"user"` |  |
+| resultsQueue | string | `"JOB_RESULTS"` |  |
+| serviceAccount.annotations | object | `{}` |  |
+| staticContent.affinity | object | `{}` |  |
+| staticContent.agentInstallerUrlLinux | string | `nil` |  |
+| staticContent.agentInstallerUrlWindows | string | `nil` |  |
+| staticContent.baseEndpoint | string | `nil` |  |
+| staticContent.extraEnvVars | list | `[]` |  |
+| staticContent.extraInitContainers | list | `[]` |  |
+| staticContent.extraLabels | object | `{}` |  |
+| staticContent.image | string | `"actian/integration-manager-static-content:2.0.6.294"` |  |
+| staticContent.jobsEndpoint | string | `nil` |  |
+| staticContent.livenessProbe.failureThreshold | int | `3` |  |
+| staticContent.livenessProbe.httpGet.path | string | `"/"` |  |
+| staticContent.livenessProbe.httpGet.port | int | `8080` |  |
+| staticContent.livenessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| staticContent.livenessProbe.initialDelaySeconds | int | `10` |  |
+| staticContent.livenessProbe.periodSeconds | int | `10` |  |
+| staticContent.livenessProbe.timeoutSeconds | int | `5` |  |
+| staticContent.nodeSelector | object | `{}` |  |
+| staticContent.pdb | object | `{}` |  |
+| staticContent.podAnnotations | object | `{}` |  |
+| staticContent.podSecurityContext | object | `{}` |  |
+| staticContent.pullPolicy | string | `"IfNotPresent"` |  |
+| staticContent.readinessProbe.failureThreshold | int | `3` |  |
+| staticContent.readinessProbe.httpGet.path | string | `"/"` |  |
+| staticContent.readinessProbe.httpGet.port | int | `8080` |  |
+| staticContent.readinessProbe.httpGet.scheme | string | `"HTTP"` |  |
+| staticContent.readinessProbe.initialDelaySeconds | int | `5` |  |
+| staticContent.readinessProbe.periodSeconds | int | `10` |  |
+| staticContent.readinessProbe.successThreshold | int | `1` |  |
+| staticContent.readinessProbe.timeoutSeconds | int | `5` |  |
+| staticContent.replicaCount | int | `1` |  |
+| staticContent.resources | object | `{}` |  |
+| staticContent.revisionHistoryLimit | int | `10` |  |
+| staticContent.salesForceLoginUrl | string | `nil` |  |
+| staticContent.securityContext | object | `{}` |  |
+| staticContent.service.annotations | object | `{}` |  |
+| staticContent.service.type | string | `"ClusterIP"` |  |
 
-Add the following repository to helm:  
-```helm repo add actian-datacloud https://s3.amazonaws.com/actian-datacloud-helm-charts```
-
-To install the chart, first configure a override-values.yaml file specific for your environment:  
-```helm install actian-datacloud/integration-manager -f override-values.yaml```
-
-## Configuration
-
-The following table lists the configurable parameters of the integration-manager chart and their default values.
-  
-| Parameter                                     | Description                                                               | Default                                                                                                                                                                                   |
-|-----------------------------------------------|---------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `imagePullSecrets`                            | name of Secret resource containing private registry credentials           | []                                                                                                                                                                                        |
-| `extraConfig`                                 | additional properties to include in the config map                        | {}                                                                                                                                                                                        |
-| `aggregator.image`                            | image to pull for the aggregator service                                  | actian/aggregator-service:2.0.6.294                                                                                                                                                       |
-| `aggregator.config`                           | configuration enabling aggregation for specific job configurations        | []                                                                                                                                                                                        |
-| `aggregator.revisionHistoryLimit`             | the number of old history to retain to allow rollback                     | 10                                                                                                                                                                                        |
-| `aggregator.affinity`                         | node/pod affinities                                                       | {}                                                                                                                                                                                        |
-| `aggregator.livenessProbe`                    | pod liveness probe                                                        | { "initialDelaySeconds": 120, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/health", "port": 8080 }} |
-| `aggregator.readinessProbe`                   | pod readiness probe                                                       | { "initialDelaySeconds": 30, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/health", "port": 8080 }}  |
-| `aggregator.pullPolicy`                       | when to pull image                                                        | IfNotPresent                                                                                                                                                                              |
-| `aggregator.extraInitContainers`              | init containers for pod                                                   | []                                                                                                                                                                                        |
-| `aggregator.extraConfig`                      | additional properties to include in the config map                        | {}                                                                                                                                                                                        |
-| `aggregator.pdb`                              | pod disruption budget                                                     | {}                                                                                                                                                                                        |
-| `aggregator.replicaCount`                     | number of pods to run                                                     | 1                                                                                                                                                                                         |
-| `aggregator.extraLabels`                      | additional labels to add                                                  | {}                                                                                                                                                                                        |
-| `aggregator.podAnnotations`                   | pod annotations                                                           | {}                                                                                                                                                                                        |
-| `aggregator.resources`                        | set resource limits                                                       | {}                                                                                                                                                                                        |
-| `aggregator.nodeSelector`                     | set nodeSelector                                                          | {}                                                                                                                                                                                        |
-| `aggregator.service.annotations`              | service annotations                                                       | {}                                                                                                                                                                                        |
-| `aggregator.service.type`                     | service type                                                              | ClusterIP                                                                                                                                                                                 |
-| `aggregatorProcessor.image`                   | image to pull for the aggregator processor                                | actian/aggregator-processor:2.0.6.294                                                                                                                                                     |
-| `aggregatorProcessor.revisionHistoryLimit`    | the number of old history to retain to allow rollback                     | 10                                                                                                                                                                                        |
-| `aggregatorProcessor.affinity`                | node/pod affinities                                                       | {}                                                                                                                                                                                        |
-| `aggregatorProcessor.livenessProbe`           | pod liveness probe                                                        | { "initialDelaySeconds": 120, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/health", "port": 8080 }} |
-| `aggregatorProcessor.pullPolicy`              | when to pull image                                                        | IfNotPresent                                                                                                                                                                              |
-| `aggregatorProcessor.extraInitContainers`     | init containers for pod                                                   | []                                                                                                                                                                                        |
-| `aggregatorProcessor.extraConfig`             | additional properties to include in the config map                        | {}                                                                                                                                                                                        |
-| `aggregatorProcessor.pdb`                     | pod disruption budget                                                     | {}                                                                                                                                                                                        |
-| `aggregatorProcessor.replicaCount`            | number of pods to run                                                     | 1                                                                                                                                                                                         |
-| `aggregatorProcessor.extraLabels`             | additional labels to add                                                  | {}                                                                                                                                                                                        |
-| `aggregatorProcessor.podAnnotations`          | pod annotations                                                           | {}                                                                                                                                                                                        |
-| `aggregatorProcessor.resources`               | set resource limits                                                       | {}                                                                                                                                                                                        |
-| `aggregatorProcessor.nodeSelector`            | set nodeSelector                                                          | {}                                                                                                                                                                                        |
-| `integrationManagerBase.image`                | image to pull for the integration manager base service                    | actian/integration-manager-base:2.0.6.294                                                                                                                                                 |
-| `integrationManagerBase.revisionHistoryLimit` | the number of old history to retain to allow rollback                     | 10                                                                                                                                                                                        |
-| `integrationManagerBase.affinity`             | node/pod affinities                                                       | {}                                                                                                                                                                                        |
-| `integrationManagerBase.livenessProbe`        | pod liveness probe                                                        | { "initialDelaySeconds": 120, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/health", "port": 8080 }} |
-| `integrationManagerBase.readinessProbe`       | pod readiness probe                                                       | { "initialDelaySeconds": 30, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/health", "port": 8080 }}  |
-| `integrationManagerBase.pullPolicy`           | when to pull image                                                        | IfNotPresent                                                                                                                                                                              |
-| `integrationManagerBase.extraInitContainers`  | init containers for pod                                                   | []                                                                                                                                                                                        |
-| `integrationManagerBase.extraConfig`          | additional properties to include in the config map                        | {}                                                                                                                                                                                        |
-| `integrationManagerBase.pdb`                  | pod disruption budget                                                     | {}                                                                                                                                                                                        |
-| `integrationManagerBase.replicaCount`         | number of pods to run                                                     | 1                                                                                                                                                                                         |
-| `integrationManagerBase.extraLabels`          | additional labels to add                                                  | {}                                                                                                                                                                                        |
-| `integrationManagerBase.podAnnotations`       | pod annotations                                                           | {}                                                                                                                                                                                        |
-| `integrationManagerBase.resources`            | set resource limits                                                       | {}                                                                                                                                                                                        |
-| `integrationManagerBase.nodeSelector`         | set nodeSelector                                                          | {}                                                                                                                                                                                        |
-| `integrationManagerBase.service.annotations`  | service annotations                                                       | {}                                                                                                                                                                                        |
-| `integrationManagerBase.service.type`         | service type                                                              | ClusterIP                                                                                                                                                                                 |
-| `jobExecution.image`                          | image to pull for the job execution service                               | actian/job-execution-service:2.0.6.294                                                                                                                                                    |
-| `jobExecution.revisionHistoryLimit`           | the number of old history to retain to allow rollback                     | 10                                                                                                                                                                                        |
-| `jobExecution.affinity`                       | node/pod affinities                                                       | {}                                                                                                                                                                                        |
-| `jobExecution.livenessProbe`                  | pod liveness probe                                                        | { "initialDelaySeconds": 120, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/health", "port": 8080 }} |
-| `jobExecution.readinessProbe`                 | pod readiness probe                                                       | { "initialDelaySeconds": 30, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/health", "port": 8080 }}  |
-| `jobExecution.pullPolicy`                     | when to pull image                                                        | IfNotPresent                                                                                                                                                                              |
-| `jobExecution.extraInitContainers`            | init containers for pod                                                   | []                                                                                                                                                                                        |
-| `jobExecution.extraConfig`                    | additional properties to include in the config map                        | {}                                                                                                                                                                                        |
-| `jobExecution.pdb`                            | pod disruption budget                                                     | {}                                                                                                                                                                                        |
-| `jobExecution.replicaCount`                   | number of pods to run                                                     | 1                                                                                                                                                                                         |
-| `jobExecution.extraLabels`                    | additional labels to add                                                  | {}                                                                                                                                                                                        |
-| `jobExecution.podAnnotations`                 | pod annotations                                                           | {}                                                                                                                                                                                        |
-| `jobExecution.resources`                      | set resource limits                                                       | {}                                                                                                                                                                                        |
-| `jobExecution.nodeSelector`                   | set nodeSelector                                                          | {}                                                                                                                                                                                        |
-| `jobExecution.service.annotations`            | service annotations                                                       | {}                                                                                                                                                                                        |
-| `jobExecution.service.type`                   | service type                                                              | ClusterIP                                                                                                                                                                                 |
-| `jobLogStreaming.enabled`                     | enable log streaming                                                      | false                                                                                                                                                                                     |
-| `jobLogStreaming.image`                       | image to pull for the job log streaming service                           | actian/job-log-streaming:2.0.6.294                                                                                                                                                        |
-| `jobLogStreaming.revisionHistoryLimit`        | the number of old history to retain to allow rollback                     | 10                                                                                                                                                                                        |
-| `jobLogStreaming.affinity`                    | node/pod affinities                                                       | {}                                                                                                                                                                                        |
-| `jobLogStreaming.livenessProbe`               | pod liveness probe                                                        | { "initialDelaySeconds": 120, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/health", "port": 8080 }} |
-| `jobLogStreaming.readinessProbe`              | pod readiness probe                                                       | { "initialDelaySeconds": 30, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/health", "port": 8080 }}  |
-| `jobLogStreaming.pullPolicy`                  | when to pull image                                                        | IfNotPresent                                                                                                                                                                              |
-| `jobLogStreaming.extraInitContainers`         | init containers for pod                                                   | []                                                                                                                                                                                        |
-| `jobLogStreaming.extraConfig`                 | additional properties to include in the config map                        | {}                                                                                                                                                                                        |
-| `jobLogStreaming.pdb`                         | pod disruption budget                                                     | {}                                                                                                                                                                                        |
-| `jobLogStreaming.replicaCount`                | number of pods to run                                                     | 1                                                                                                                                                                                         |
-| `jobLogStreaming.persistentStorageSize`       | size of the persistent store used by kafka's rocksdb                      | 1Gi                                                                                                                                                                                       |
-| `jobLogStreaming.extraLabels`                 | additional labels to add                                                  | {}                                                                                                                                                                                        |
-| `jobLogStreaming.podAnnotations`              | pod annotations                                                           | {}                                                                                                                                                                                        |
-| `jobLogStreaming.resources`                   | set resource limits                                                       | {}                                                                                                                                                                                        |
-| `jobLogStreaming.nodeSelector`                | set nodeSelector                                                          | {}                                                                                                                                                                                        |
-| `jobLogStreaming.service.annotations`         | service annotations                                                       | {}                                                                                                                                                                                        |
-| `jobLogStreaming.service.type`                | service type                                                              | ClusterIP                                                                                                                                                                                 |
-| `jobResultsProcessor.image`                   | image to pull for the job results processor service                       | actian/job-results-processor:2.0.6.294                                                                                                                                                    |
-| `jobResultsProcessor.revisionHistoryLimit`    | the number of old history to retain to allow rollback                     | 10                                                                                                                                                                                        |
-| `jobResultsProcessor.affinity`                | node/pod affinities                                                       | {}                                                                                                                                                                                        |
-| `jobResultsProcessor.livenessProbe`           | pod liveness probe                                                        | { "initialDelaySeconds": 120, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/health", "port": 8080 }} |
-| `jobResultsProcessor.readinessProbe`          | pod readiness probe                                                       | { "initialDelaySeconds": 30, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/health", "port": 8080 }}  |
-| `jobResultsProcessor.pullPolicy`              | when to pull image                                                        | IfNotPresent                                                                                                                                                                              |
-| `jobResultsProcessor.extraInitContainers`     | init containers for pod                                                   | []                                                                                                                                                                                        |
-| `jobResultsProcessor.extraConfig`             | additional properties to include in the config map                        | {}                                                                                                                                                                                        |
-| `jobResultsProcessor.pdb`                     | pod disruption budget                                                     | {}                                                                                                                                                                                        |
-| `jobResultsProcessor.replicaCount`            | number of pods to run                                                     | 1                                                                                                                                                                                         |
-| `jobResultsProcessor.extraLabels`             | additional labels to add                                                  | {}                                                                                                                                                                                        |
-| `jobResultsProcessor.podAnnotations`          | pod annotations                                                           | {}                                                                                                                                                                                        |
-| `jobResultsProcessor.resources`               | set resource limits                                                       | {}                                                                                                                                                                                        |
-| `jobResultsProcessor.nodeSelector`            | set nodeSelector                                                          | {}                                                                                                                                                                                        |
-| `jobResultsProcessor.service.annotations`     | service annotations                                                       | {}                                                                                                                                                                                        |
-| `jobResultsProcessor.service.type`            | service type                                                              | ClusterIP                                                                                                                                                                                 |
-| `jobScheduler.image`                          | image to pull for the job scheduler service                               | actian/job-scheduler-service:2.0.6.294                                                                                                                                                    |
-| `jobScheduler.revisionHistoryLimit`           | the number of old history to retain to allow rollback                     | 10                                                                                                                                                                                        |
-| `jobScheduler.affinity`                       | node/pod affinities                                                       | {}                                                                                                                                                                                        |
-| `jobScheduler.livenessProbe`                  | pod liveness probe                                                        | { "initialDelaySeconds": 120, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/health", "port": 8080 }} |
-| `jobScheduler.readinessProbe`                 | pod readiness probe                                                       | { "initialDelaySeconds": 30, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/health", "port": 8080 }}  |
-| `jobScheduler.pullPolicy`                     | when to pull image                                                        | IfNotPresent                                                                                                                                                                              |
-| `jobScheduler.extraInitContainers`            | init containers for pod                                                   | []                                                                                                                                                                                        |
-| `jobScheduler.extraConfig`                    | additional properties to include in the config map                        | {}                                                                                                                                                                                        |
-| `jobScheduler.pdb`                            | pod disruption budget                                                     | {}                                                                                                                                                                                        |
-| `jobScheduler.replicaCount`                   | number of pods to run                                                     | 1                                                                                                                                                                                         |
-| `jobScheduler.extraLabels`                    | additional labels to add                                                  | {}                                                                                                                                                                                        |
-| `jobScheduler.podAnnotations`                 | pod annotations                                                           | {}                                                                                                                                                                                        |
-| `jobScheduler.resources`                      | set resource limits                                                       | {}                                                                                                                                                                                        |
-| `jobScheduler.nodeSelector`                   | set nodeSelector                                                          | {}                                                                                                                                                                                        |
-| `jobScheduler.service.annotations`            | service annotations                                                       | {}                                                                                                                                                                                        |
-| `jobScheduler.service.type`                   | service type                                                              | ClusterIP                                                                                                                                                                                 |
-| `staticContent.image`                         | image to pull for integration manager's static content (apidocs, console) | actian/integration-manager-static-content:2.0.6.294                                                                                                                                       |
-| `staticContent.revisionHistoryLimit`          | the number of old history to retain to allow rollback                     | 10                                                                                                                                                                                        |
-| `staticContent.affinity`                      | node/pod affinities                                                       | {}                                                                                                                                                                                        |
-| `staticContent.livenessProbe`                 | pod liveness probe                                                        | { "initialDelaySeconds": 10, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/", "port": 80 }}          |
-| `staticContent.readinessProbe`                | pod readiness probe                                                       | { "initialDelaySeconds": 5, "periodSeconds": 10, "timeoutSeconds": 5, "successThreshhold": 1, "failureThreshhold": 3, "httpGet": { "scheme": "HTTP", "path": "/", "port": 80 }}           |
-| `staticContent.pullPolicy`                    | when to pull image                                                        | IfNotPresent                                                                                                                                                                              |
-| `staticContent.extraInitContainers`           | init containers for pod                                                   | []                                                                                                                                                                                        |
-| `staticContent.pdb`                           | pod disruption budget                                                     | {}                                                                                                                                                                                        |
-| `staticContent.replicaCount`                  | number of pods to run                                                     | 1                                                                                                                                                                                         |
-| `staticContent.extraLabels`                   | additional labels to add                                                  | {}                                                                                                                                                                                        |
-| `staticContent.podAnnotations`                | pod annotations                                                           | {}                                                                                                                                                                                        |
-| `staticContent.resources`                     | set resource limits                                                       | {}                                                                                                                                                                                        |
-| `staticContent.nodeSelector`                  | set nodeSelector                                                          | {}                                                                                                                                                                                        |
-| `staticContent.service.annotations`           | service annotations                                                       | {}                                                                                                                                                                                        |
-| `staticContent.baseEndpoint`                  | integration manager base endpoint for the browser to send requests to     | nil                                                                                                                                                                                       |
-| `staticContent.jobsEndpoint`                  | job execution endpoint for the browser to send requests to                | nil                                                                                                                                                                                       |
-| `staticContent.salesForceLoginUrl`            | salesforce url for login redirect                                         | nil                                                                                                                                                                                       |
-| `staticContent.agentInstallerUrlWindows`      | location for the windows agent installer                                  | nil                                                                                                                                                                                       |
-| `staticContent.agentInstallerUrlLinux`        | location for the linux agent installer                                    | nil                                                                                                                                                                                       |
-| `prometheus.operator.enabled`                 | creates service monitors when true                                        | false                                                                                                                                                                                     |
-| `prometheus.operator.serviceMonitor.interval` | interval for prometheus scraping                                          | 10s                                                                                                                                                                                       |
-| `ingress.enabled`                             | create ingress resource                                                   | true                                                                                                                                                                                      |
-| `ingress.tls`                                 | is tls enabled                                                            | false                                                                                                                                                                                     |
-| `ingress.tlsSecret`                           | secret for tls                                                            | nil                                                                                                                                                                                       |
-| `ingress.annotations`                         | annotations for ingress                                                   | {}                                                                                                                                                                                        |
-| `ingress.hostName`                            | dns host name for ingress routing                                         | nil                                                                                                                                                                                       |
-| `ingress.pathVersionPrefix`                   | version prefix if running multiple versions of IM                         | nil                                                                                                                                                                                       |
-| `imbaseUrl`                                   | base url for IM for service to service communication                      | nil                                                                                                                                                                                       |
-| `destinationId`                               | default destination id                                                    | 1                                                                                                                                                                                         |
-| `jobTimeOut`                                  | how long the server will wait for synchronous jobs before returning       | 30                                                                                                                                                                                        |
-| `resultsQueue`                                | queue to use for results processor                                        | JOB_RESULTS                                                                                                                                                                               |
-| `datasource.url`                              | jdbc connection string                                                    | nil                                                                                                                                                                                       |
-| `datasource.username`                         | jdbc username                                                             | nil                                                                                                                                                                                       |
-| `datasource.password`                         | jdbc password                                                             | nil                                                                                                                                                                                       |
-| `datasource.maximumPoolSize`                  | connection pool maximum pool size                                         | 10                                                                                                                                                                                        |
-| `datasource.minimumIdle`                      | connection pool minimum idle                                              | 2                                                                                                                                                                                         |
-| `existingRabbitSecret`                        | existing rabbitmq secret to use                                           | nil                                                                                                                                                                                       |
-| `existingSecret`                              | existing secret to use for non-rabbit configuration                       | nil                                                                                                                                                                                       |
-| `amqp.host`                                   | rabbitmq host endpoint                                                    | nil                                                                                                                                                                                       |
-| `amqp.port`                                   | rabbitmq amqp port                                                        | 4672                                                                                                                                                                                      |
-| `amqp.username`                               | rabbitmq username                                                         | nil                                                                                                                                                                                       |
-| `amqp.password`                               | rabbitmq password                                                         | nil                                                                                                                                                                                       |
-| `amqp.sslEnabled`                             | rabbitmq ssl connection                                                   | false                                                                                                                                                                                     |
-| `amqp.sslProtocol`                            | rabbitmq ssl protocol                                                     | TLSv1.2                                                                                                                                                                                   |
-| `amqp.sslKeyStore`                            | rabbitmq keystore to use                                                  | nil                                                                                                                                                                                       |
-| `amqp.sslKeyStoreType`                        | rabbitmq keystore type                                                    | PKCS12                                                                                                                                                                                    |
-| `amqp.sslKeyStorePassword`                    | rabbitmq keystore password                                                | nil                                                                                                                                                                                       |
-| `amqp.managementUrl`                          | rabbitmq manamagent url                                                   | nil                                                                                                                                                                                       |
-| `amqp.externalHost`                           | host to set for agents upon registration                                  | nil                                                                                                                                                                                       |
-| `amqp.externalPort`                           | port to set for agents upon registration                                  | 5672                                                                                                                                                                                      |
-| `amqp.externalSslEnabled`                     | use ssl for agents upon registration                                      | false                                                                                                                                                                                     |
-| `cache.enabled`                               | coordinated caching (requires ActiveMQ)                                   | false                                                                                                                                                                                     |
-| `jms.host`                                    | ActiveMQ host for coordinated caching                                     | nil                                                                                                                                                                                       |
-| `jms.port`                                    | ActiveMQ port for coordinated caching                                     | nil                                                                                                                                                                                       |
-| `jms.username`                                | ActiveMQ username for coordinated caching                                 | nil                                                                                                                                                                                       |
-| `jms.password`                                | ActiveMQ password for coordinated caching                                 | nil                                                                                                                                                                                       |
-| `repository.storageType`                      | where are files stored (aws, local, azure)                                | aws                                                                                                                                                                                       |
-| `repository.sourceBucket`                     | root directory or s3 bucket for files                                     | nil                                                                                                                                                                                       |
-| `repository.sourcePrefix`                     | prefix/directory for files                                                | history/job                                                                                                                                                                               |
-| `repository.targetBucket`                     | root directory or s3 bucket for execution history                         | nil                                                                                                                                                                                       |
-| `repository.targetPrefix`                     | prefix/directory for execution history                                    | history/job                                                                                                                                                                               |
-| `repository.accountDir`                       | directory for account files                                               | account                                                                                                                                                                                   |
-| `repository.localTempDir`                     | directory for temp files                                                  | tmp                                                                                                                                                                                       |
-| `repository.userDir`                          | directory for user files                                                  | user                                                                                                                                                                                      |
-| `repository.jobTemplateDir`                   | directory for job template files                                          | template                                                                                                                                                                                  |
-| `repository.jobConfigDir`                     | directory for job configuration files                                     | configuration                                                                                                                                                                             |
-| `repository.awsServiceEndpoint`               | s3 service endpoint for aws sdk                                           | s3.us-east-1.amazonaws.com                                                                                                                                                                |
-| `repository.awsSigningRegion`                 | s3 signing region for aws sdk                                             | us-east-1                                                                                                                                                                                 |
-| `repository.azureConnectString`               | connecting string for azure blob storage                                  | nil                                                                                                                                                                                       |
-| `repository.nestedJobStorage`                 | use nested job storage                                                    | false                                                                                                                                                                                     |
-| `repository.awsCreateEnvVar`                  | creates env vars for aws sdk                                              | false                                                                                                                                                                                     |
-| `repository.awsAccessKeyId`                   | aws access key id                                                         | nil                                                                                                                                                                                       |
-| `repository.awsSecretAccessKey`               | aws secret access key                                                     | nil                                                                                                                                                                                       |
-| `agent.baseUrl`                               | base url location for agent artifacts                                     | nil                                                                                                                                                                                       |
-| `agent.windowsEngine`                         | name of windows engine in agent.baseUrl location                          | nil                                                                                                                                                                                       |
-| `agent.linuxEngine`                           | name of linux engine in agent.baseUrl location                            | nil                                                                                                                                                                                       |
-| `notification.enabled`                        | enable job notifications                                                  | false                                                                                                                                                                                     |
-| `notification.springMailHost`                 | smtp host for notifications                                               | smtp.gmail.com                                                                                                                                                                            |
-| `notification.springMailPort`                 | smtp port for notifications                                               | 587                                                                                                                                                                                       |
-| `notification.springMailProtocol`             | protocol for notifications                                                | smtp                                                                                                                                                                                      |
-| `notification.springMailUsername`             | smtp username for notifications                                           | nil                                                                                                                                                                                       |
-| `notification.springMailPassword`             | smtp password for notifications                                           | nil                                                                                                                                                                                       |
-| `notification.springMailAuth`                 | auth required for notifications                                           | true                                                                                                                                                                                      |
-| `notification.springMailTLSEnable`            | is tls enabled for notifications                                          | true                                                                                                                                                                                      |
-| `notification.springMailTLSRequired`          | is tls required for notifications                                         | true                                                                                                                                                                                      |
-| `notification.mailFrom`                       | who to send notifications from                                            | nil                                                                                                                                                                                       |
-| `notification.mailTo`                         | who to send notifications to                                              | nil                                                                                                                                                                                       |
-| `encryption.enabled`                          | is database encryption enabled                                            | false                                                                                                                                                                                     |
-| `encryption.passwordEncoderType`              | encoder type for password encryption                                      | bcrypt                                                                                                                                                                                    |
-| `encryption.keyStorePassword`                 | keystore password                                                         | nil                                                                                                                                                                                       |
-| `encryption.keyStore`                         | base64 encoded keystore file contents                                     | nil                                                                                                                                                                                       |
-| `encryption.certificateName`                  | name of key in keystore                                                   | nil                                                                                                                                                                                       |
-
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)

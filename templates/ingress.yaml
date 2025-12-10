@@ -182,6 +182,19 @@ spec:
           path: /api/listener
           {{- end }}
           pathType: ImplementationSpecific
+        {{- if .Values.jobSocketExecutor.enabled }}
+        - backend:
+            service:
+              name: {{ template "integration-manager.job-socket-executor.fullname" . }}
+              port:
+                number: 8080
+          {{- if .Values.ingress.pathVersionPrefix }}
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/jobconfigs\/.*\/job-socket.*)
+          {{- else }}
+          path: /api/jobconfigs/.*/job-socket.*
+          {{- end }}
+          pathType: ImplementationSpecific
+        {{- end }}
         - backend:
             service:
               name: {{ template "integration-manager.job-execution.fullname" . }}
