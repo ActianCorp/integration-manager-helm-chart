@@ -395,6 +395,46 @@ jobScheduler:
   service:
     annotations: {}
     type: ClusterIP
+jobSocketExecutor:
+  enabled: false
+  image: actian/job-socket-executor:3.4.0-SNAPSHOT
+  extraEnvVars: [] # Extra environment variables to be added to this deployment
+  revisionHistoryLimit: 10
+  pdb: {}
+  affinity: {}
+  livenessProbe:
+    initialDelaySeconds: 120
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    httpGet:
+      scheme: HTTP
+      path: /health
+      port: 8080
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
+    httpGet:
+      scheme: HTTP
+      path: /health
+      port: 8080
+  pullPolicy: IfNotPresent
+  extraInitContainers: []
+  extraConfig: |
+    # Extra application.properties
+  replicaCount: 1
+  extraLabels: {}
+  podAnnotations: {}
+  resources: {}
+  nodeSelector: {}
+  podSecurityContext: {}
+  securityContext: {}
+  service:
+    annotations: {}
+    type: ClusterIP
 staticContent:
   image: actian/integration-manager-static-content:2.0.6.294
   extraEnvVars: [] # Extra environment variables to be added to this deployment
@@ -455,15 +495,6 @@ staticContent:
   agentInstallerUrlWindows:
   # Agent installer location - linux
   agentInstallerUrlLinux:
-#Prometheus
-prometheus:
-  operator:
-    ## Are you using Prometheus Operator? [Blog Post](https://coreos.com/blog/the-prometheus-operator.html)
-    enabled: false
-
-    serviceMonitor:
-      ## Interval at which Prometheus scrapes RabbitMQ Exporter
-      interval: 10s
 
 
 # Ingress type must support regex
