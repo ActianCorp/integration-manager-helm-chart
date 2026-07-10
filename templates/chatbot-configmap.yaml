@@ -1,0 +1,21 @@
+{{- if .Values.chatbot.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "integration-manager.chatbot.fullname" . }}
+  labels:
+    app: integration-manager
+    chart: {{ template "integration-manager.chart" . }}
+    release: {{ .Release.Name }}
+data:
+  application.properties: |
+    # Chatbot deployment overrides — these take precedence over shared-configmap values
+    chatbot.enabled=true
+    insights.enabled=true
+    # MCP tools are in-process (same JVM as chatbot) — local bean scanning is used
+    spring.ai.mcp.client.enabled=false
+    chatbot.mcp.local.enabled=true
+    {{- if .Values.chatbot.extraConfig }}
+    {{ .Values.chatbot.extraConfig | indent 4 | trim }}
+    {{- end }}
+{{- end }}

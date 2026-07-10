@@ -585,3 +585,58 @@ encryption:
   keyStore:
   # Name of key in keystore
   certificateName:
+
+# Ollama LLM Configuration
+# host/port/models are injected into shared-configmap for all services that need them.
+# Override per environment in your ArgoCD config values.
+ollama:
+  host: ""
+  port: 11434
+  chatModel: "llama3.1:8b"
+  embeddingModel: "chroma/all-minilm-l6-v2-f32"
+
+# Chatbot / Insights / MCP Service
+# When enabled=true, a dedicated chatbot Deployment and Service are created using the
+# same image as integration-manager-base but with chatbot features activated via its
+# own configmap override (chatbot.enabled=true wins over shared-configmap default).
+chatbot:
+  enabled: false
+  extraEnvVars: []
+  extraConfig: |
+    # Extra application.properties for the chatbot deployment
+  revisionHistoryLimit: 10
+  affinity: {}
+  livenessProbe:
+    initialDelaySeconds: 120
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    httpGet:
+      scheme: HTTP
+      path: /health
+      port: 8080
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
+    httpGet:
+      scheme: HTTP
+      path: /health
+      port: 8080
+  replicaCount: 1
+  extraLabels: {}
+  podAnnotations: {}
+  resources: {}
+  nodeSelector: {}
+  podSecurityContext: {}
+  securityContext: {}
+  service:
+    annotations: {}
+    type: ClusterIP
+
+# insights.enabled is rendered into shared-configmap alongside chatbot.enabled.
+# Set to true in the same environments where chatbot.enabled=true.
+insights:
+  enabled: false

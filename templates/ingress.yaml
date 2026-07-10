@@ -261,6 +261,41 @@ spec:
           {{- end }}
           pathType: ImplementationSpecific
         {{- end }}
+        {{- if .Values.chatbot.enabled }}
+        - backend:
+            service:
+              name: {{ template "integration-manager.chatbot.fullname" . }}
+              port:
+                number: 8080
+          {{- if .Values.ingress.pathVersionPrefix }}
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/chatbot.*)
+          {{- else }}
+          path: /api/chatbot
+          {{- end }}
+          pathType: ImplementationSpecific
+        - backend:
+            service:
+              name: {{ template "integration-manager.chatbot.fullname" . }}
+              port:
+                number: 8080
+          {{- if .Values.ingress.pathVersionPrefix }}
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/insights.*)
+          {{- else }}
+          path: /api/insights
+          {{- end }}
+          pathType: ImplementationSpecific
+        - backend:
+            service:
+              name: {{ template "integration-manager.chatbot.fullname" . }}
+              port:
+                number: 8080
+          {{- if .Values.ingress.pathVersionPrefix }}
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(mcp.*)
+          {{- else }}
+          path: /mcp
+          {{- end }}
+          pathType: ImplementationSpecific
+        {{- end }}
         - backend:
             service:
               name: {{ template "integration-manager.job-execution.fullname" . }}

@@ -65,3 +65,8 @@ so truncation should be 63-22=41.
 {{- define "integration-manager.static-content.fullname" -}}
 {{- printf "%s-static-content" (include "integration-manager.fullname" .) -}}
 {{- end }}
+
+{{/* Fullname suffixed with chatbot */}}
+{{- define "integration-manager.chatbot.fullname" -}}
+{{- printf "%s-chatbot" (include "integration-manager.fullname" .) -}}
+{{- end }}
