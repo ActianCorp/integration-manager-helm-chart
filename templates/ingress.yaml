@@ -268,9 +268,9 @@ spec:
               port:
                 number: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
-          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/chatbot.*)
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/chat.*)
           {{- else }}
-          path: /api/chatbot
+          path: /api/chat
           {{- end }}
           pathType: ImplementationSpecific
         - backend:
