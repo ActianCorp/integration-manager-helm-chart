@@ -600,6 +600,8 @@ ollama:
 # same image as integration-manager-base but with chatbot features activated via its
 # own configmap override (chatbot.enabled=true wins over shared-configmap default).
 chatbot:
+  image: actian/integration-manager-chatbot:14.0.0-SNAPSHOT
+  pullPolicy: IfNotPresent
   enabled: false
   extraEnvVars: []
   extraConfig: |
