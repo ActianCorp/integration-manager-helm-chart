@@ -596,9 +596,6 @@ ollama:
   embeddingModel: "chroma/all-minilm-l6-v2-f32"
 
 # Chatbot / Insights / MCP Service
-# When enabled=true, a dedicated chatbot Deployment and Service are created using the
-# same image as integration-manager-base but with chatbot features activated via its
-# own configmap override (chatbot.enabled=true wins over shared-configmap default).
 chatbot:
   image: actian/integration-manager-chatbot:14.0.0-SNAPSHOT
   pullPolicy: IfNotPresent
