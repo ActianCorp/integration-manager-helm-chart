@@ -47,7 +47,6 @@ spec:
         {{- toYaml .Values.chatbot.podSecurityContext | nindent 8 }}
       containers:
       - name: integration-manager-chatbot
-        # Same image as integration-manager-base; chatbot features activated via configmap override
         image: {{ .Values.chatbot.image }}
         imagePullPolicy: {{ .Values.chatbot.pullPolicy }}
         securityContext:
