@@ -1,0 +1,26 @@
+{{- if .Values.chatbot.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "integration-manager.chatbot.fullname" . }}
+  {{- if .Values.chatbot.service.annotations }}
+  annotations:
+    {{ .Values.chatbot.service.annotations | toYaml | indent 4 | trim }}
+  {{- end }}
+  labels:
+    app: integration-manager
+    component: chatbot
+    chart: {{ template "integration-manager.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+  ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: integration-manager
+    component: chatbot
+    release: {{ .Release.Name }}
+  type: "{{ .Values.chatbot.service.type }}"
+{{- end }}
