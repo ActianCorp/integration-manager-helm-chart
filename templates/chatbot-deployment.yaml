@@ -54,7 +54,7 @@ spec:
         env:
         {{- if .Values.chatbot.javaOpts }}
         - name: JAVA_OPTS
-          value: {{ .Values.integrationManagerBase.javaOpts }}
+          value: {{ .Values.chatbot.javaOpts }}
         {{- end }}
         {{- with .Values.extraEnvVars }}
         {{- toYaml . | nindent 8 }}
