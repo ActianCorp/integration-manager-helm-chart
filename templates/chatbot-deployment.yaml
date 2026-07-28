@@ -52,7 +52,7 @@ spec:
         securityContext:
           {{- toYaml .Values.chatbot.securityContext | nindent 10 }}
         env:
-        {{- if .Values.integrationManagerBase.javaOpts }}
+        {{- if .Values.chatbot.javaOpts }}
         - name: JAVA_OPTS
           value: {{ .Values.integrationManagerBase.javaOpts }}
         {{- end }}
