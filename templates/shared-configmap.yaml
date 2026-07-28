@@ -166,7 +166,7 @@ data:
     spring.ai.vectorstore.pgvector.dimensions=384
     spring.ai.vectorstore.pgvector.distance-type=COSINE_DISTANCE
     spring.ai.vectorstore.pgvector.index-type=HNSW
-    spring.ai.vectorstore.pgvector.schema-name=public
+    spring.ai.vectorstore.pgvector.schema-name=dataclouddb_new
     spring.ai.vectorstore.pgvector.table-name=vector_store
     spring.ai.vectorstore.pgvector.initialize-schema=false
 
@@ -187,7 +187,7 @@ data:
     # The annotation scanner uses JsonProperty.isRequired() which was removed in Jackson 2.19
     spring.ai.mcp.server.annotation-scanner.enabled=false
 
-    javers.sqlSchema=public
+    javers.sqlSchema=dataclouddb_new
     javers.auditableAspectEnabled=true
     javers.springDataAuditableRepositoryAspectEnabled=true
 
