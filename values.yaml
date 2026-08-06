@@ -488,7 +488,7 @@ datasource:
   url:
   username:
   password:
-  maximumPoolSize: 10
+  maximumPoolSize: 25
   minimumIdle: 2
 
 # AMQP Configuration - Must use AMQP version 0-9-1
