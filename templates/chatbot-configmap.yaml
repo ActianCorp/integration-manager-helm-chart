@@ -12,9 +12,17 @@ data:
     # Chatbot deployment overrides — these take precedence over shared-configmap values
     chatbot.enabled=true
     insights.enabled=true
-    # MCP tools are in-process (same JVM as chatbot) — local bean scanning is used
-    spring.ai.mcp.client.enabled=false
-    chatbot.mcp.local.enabled=true
+    # MCP tools live in separate microservices (distributed EKS mode).
+    # The chatbot connects to each service's MCP server via SSE to discover and call tools.
+    # job-configuration owns: list_job_configs, list_my_job_configs, search_job_configs, etc.
+    # job-execution owns: run_job_configs_by_id, get_job_stats, get_execution_metrics, etc.
+    # job-scheduler owns: create_jobconfig_interval_schedule, schedule override tools, etc.
+    # account-management owns: audit trail tools (find_changes_by_date, query_audit_trail, etc.)
+    spring.ai.mcp.client.enabled=true
+    chatbot.mcp.local.enabled=false
+    spring.ai.mcp.client.sse.connections.job-configuration.url=http://{{ template "integration-manager.base.fullname" . }}:8080
+    spring.ai.mcp.client.sse.connections.job-execution.url=http://{{ template "integration-manager.job-execution.fullname" . }}:8080
+    spring.ai.mcp.client.sse.connections.job-scheduler.url=http://{{ template "integration-manager.job-scheduler.fullname" . }}:8080
     {{- if .Values.chatbot.extraConfig }}
     {{ .Values.chatbot.extraConfig | indent 4 | trim }}
     {{- end }}
