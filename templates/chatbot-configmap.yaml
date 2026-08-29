@@ -20,7 +20,7 @@ data:
     # account-management owns: audit trail tools (find_changes_by_date, query_audit_trail, etc.)
     spring.ai.mcp.client.enabled=true
     chatbot.mcp.local.enabled=false
-    spring.ai.mcp.client.sse.connections.job-configuration.url=http://{{ template "integration-manager.base.fullname" . }}:8080
+    spring.ai.mcp.client.sse.connections.im-base.url=http://{{ template "integration-manager.base.fullname" . }}:8080
     spring.ai.mcp.client.sse.connections.job-execution.url=http://{{ template "integration-manager.job-execution.fullname" . }}:8080
     spring.ai.mcp.client.sse.connections.job-scheduler.url=http://{{ template "integration-manager.job-scheduler.fullname" . }}:8080
     {{- if .Values.chatbot.extraConfig }}
