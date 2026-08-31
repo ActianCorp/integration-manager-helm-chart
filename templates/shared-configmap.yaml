@@ -152,11 +152,8 @@ data:
 
     # mcp-server is bundled in this JVM (on-premise mode) — local tool discovery is automatic.
     # Remote SSE client is disabled; tools are provided in-process via @McpTool bean scanning.
-    spring.ai.mcp.client.enabled=true
-    spring.ai.model.chat=ollama
-    spring.ai.model.embedding=ollama
+    spring.ai.mcp.client.enabled=false
     spring.ai.chat.client.enabled=false
-    spring.ai.mcp.client.sse.connections.mcp-server.url=http://mcp-server:8083
 
     # Disable MCP annotation scanner to avoid Jackson 2.19 vs jackson-module-jsonSchema 2.18 incompatibility
     # The annotation scanner uses JsonProperty.isRequired() which was removed in Jackson 2.19
