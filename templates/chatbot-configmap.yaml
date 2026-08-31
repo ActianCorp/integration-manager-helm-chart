@@ -23,6 +23,27 @@ data:
     spring.ai.mcp.client.sse.connections.im-base.url=http://{{ template "integration-manager.base.fullname" . }}:8080
     spring.ai.mcp.client.sse.connections.job-execution.url=http://{{ template "integration-manager.job-execution.fullname" . }}:8080
     spring.ai.mcp.client.sse.connections.job-scheduler.url=http://{{ template "integration-manager.job-scheduler.fullname" . }}:8080
+    # Ollama configuration
+    spring.ai.ollama.base-url=http://{{ .Values.ollama.host }}:{{ .Values.ollama.port }}
+    spring.ai.ollama.chat.model={{ .Values.ollama.chatModel }}
+    # Low temperature for deterministic tool-calling behavior
+    spring.ai.ollama.chat.options.temperature=0.1
+    spring.ai.ollama.embedding.model={{ .Values.ollama.embeddingModel }}
+    spring.ai.ollama.embedding.options.dimensions=384
+
+    # PgVectorStore configuration
+    spring.ai.vectorstore.pgvector.dimensions=384
+    spring.ai.vectorstore.pgvector.distance-type=COSINE_DISTANCE
+    spring.ai.vectorstore.pgvector.index-type=HNSW
+    spring.ai.vectorstore.pgvector.schema-name=dataclouddb_new
+    spring.ai.vectorstore.pgvector.table-name=vector_store
+    spring.ai.vectorstore.pgvector.initialize-schema=false
+
+    # Chat Memory configuration
+    spring.ai.chatmemory.jdbc.table-name=chat_conversation_memory
+
+    chatbot.insights.docs.similarity-threshold=0.4
+
     {{- if .Values.chatbot.extraConfig }}
     {{ .Values.chatbot.extraConfig | indent 4 | trim }}
     {{- end }}
