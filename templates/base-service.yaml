@@ -22,3 +22,7 @@ spec:
     component: base
     release: {{ .Release.Name }}
   type: "{{ .Values.integrationManagerBase.service.type }}"
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 3600
