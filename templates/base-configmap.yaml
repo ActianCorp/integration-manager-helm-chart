@@ -9,6 +9,8 @@ metadata:
 data:
   application.properties: |
     #integration-manager-base specific properties
+    # Extend Jetty idle timeout to keep MCP SSE connections alive (default 30s kills sessions)
+    server.connection-timeout=3600s
     {{- if .Values.agent.baseUrl }}
     agent.base-url={{ .Values.agent.baseUrl }}
     {{- end }}

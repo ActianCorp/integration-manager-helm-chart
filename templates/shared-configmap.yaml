@@ -156,6 +156,8 @@ data:
     # Disable MCP annotation scanner to avoid Jackson 2.19 vs jackson-module-jsonSchema 2.18 incompatibility
     # The annotation scanner uses JsonProperty.isRequired() which was removed in Jackson 2.19
     spring.ai.mcp.server.annotation-scanner.enabled=false
+    # Send SSE keep-alive pings every 15s to prevent Jetty's 30s idle timeout from killing sessions
+    spring.ai.mcp.server.keep-alive-interval=15s
 
     javers.sqlSchema=dataclouddb_new
     javers.auditableAspectEnabled=true
