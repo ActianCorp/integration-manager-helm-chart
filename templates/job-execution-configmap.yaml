@@ -9,6 +9,8 @@ metadata:
 data:
   application.properties: |
     #job-execution specific properties
+    # Extend Jetty idle timeout to keep MCP SSE connections alive (default 30s kills sessions)
+    server.connection-timeout=3600s
     server.job.wait-timeout={{ .Values.jobTimeOut }}
     {{- if .Values.jobExecution.extraConfig }}
     {{ .Values.jobExecution.extraConfig | indent 4 | trim }}
