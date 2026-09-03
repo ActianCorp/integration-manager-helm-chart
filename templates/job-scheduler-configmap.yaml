@@ -9,6 +9,8 @@ metadata:
 data:
   application.properties: |
     #job-scheduler specific properties
+    # Extend Jetty idle timeout to keep MCP SSE connections alive (default 30s kills sessions)
+    server.connection-timeout=3600s
     org.quartz.properties-file=/etc/config/quartz.properties
     {{- if .Values.jobScheduler.extraConfig }}
     {{ .Values.jobScheduler.extraConfig | indent 4 | trim }}
