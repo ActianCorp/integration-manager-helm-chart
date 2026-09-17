@@ -534,6 +534,17 @@ spec:
               port:
                 number: 8080
           {{- if .Values.ingress.pathVersionPrefix }}
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/jira.*)
+          {{- else }}
+          path: /api/jira
+          {{- end }}
+          pathType: ImplementationSpecific
+        - backend:
+            service:
+              name: {{ template "integration-manager.base.fullname" . }}
+              port:
+                number: 8080
+          {{- if .Values.ingress.pathVersionPrefix }}
           path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/macrodef.*)
           {{- else }}
           path: /api/macrodef

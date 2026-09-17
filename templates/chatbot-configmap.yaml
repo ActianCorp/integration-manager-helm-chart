@@ -35,7 +35,10 @@ data:
     # Chat Memory configuration
     spring.ai.chatmemory.jdbc.table-name=chat_conversation_memory
 
+    # docs threshold: 0.4 is a workaround for low vector similarity scores on doc embeddings.
+    # Raise to 0.82 once the vector data issue is resolved. Code default is now 0.82.
     chatbot.insights.docs.similarity-threshold=0.4
+    chatbot.insights.jobs.similarity-threshold=0.7
 
     {{- if .Values.chatbot.extraConfig }}
     {{ .Values.chatbot.extraConfig | indent 4 | trim }}
