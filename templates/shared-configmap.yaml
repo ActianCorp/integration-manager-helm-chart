@@ -102,13 +102,6 @@ data:
     #MultipartFiles
     spring.servlet.multipart.location=/tmp
 
-    # Notification Service
-    notification.enabled={{ .Values.notification.enabled }}
-    {{- if .Values.notification.enabled }}
-    notification.mailFrom={{  .Values.notification.mailFrom }}
-    notification.mailTo={{  .Values.notification.mailTo }}
-    {{- end }}
-
     # Outbound Email Configuration
     spring.mail.host={{ .Values.notification.springMailHost }}
     spring.mail.properties.mail.transport.protocol={{ .Values.notification.springMailProtocol }}
