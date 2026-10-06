@@ -161,6 +161,14 @@ data:
     spring.cache.cache-names=trendsCache
     spring.cache.caffeine.spec=maximumSize=1000,expireAfterWrite=5m,recordStats
 
+    # Lineage Service Configuration
+    {{- if .Values.lineage.enabled }}
+    lineage.enabled=true
+    lineage.endpoint=http://{{ template "integration-manager.lineage.fullname" . }}:8080/api/lineage
+    {{- else }}
+    lineage.enabled=false
+    {{- end }}
+
     {{- if .Values.extraConfig }}
     {{ .Values.extraConfig | indent 4 | trim }}
     {{- end }}
