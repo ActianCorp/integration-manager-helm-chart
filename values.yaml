@@ -646,7 +646,6 @@ lineage:
   pullPolicy: IfNotPresent
   enabled: false
   namespace: im-jobs
-  logEvents: true
   extraEnvVars: []
   extraConfig: |
     # Extra application.properties for the lineage deployment
