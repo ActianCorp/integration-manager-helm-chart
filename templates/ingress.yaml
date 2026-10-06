@@ -296,6 +296,19 @@ spec:
           {{- end }}
           pathType: ImplementationSpecific
         {{- end }}
+        {{- if .Values.lineage.enabled }}
+        - backend:
+            service:
+              name: {{ template "integration-manager.lineage.fullname" . }}
+              port:
+                number: 8080
+          {{- if .Values.ingress.pathVersionPrefix }}
+          path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/lineage.*)
+          {{- else }}
+          path: /api/lineage.*
+          {{- end }}
+          pathType: ImplementationSpecific
+        {{- end }}
         - backend:
             service:
               name: {{ template "integration-manager.job-execution.fullname" . }}

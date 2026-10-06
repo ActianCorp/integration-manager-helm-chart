@@ -1,0 +1,26 @@
+{{- if .Values.lineage.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "integration-manager.lineage.fullname" . }}
+  {{- if .Values.lineage.service.annotations }}
+  annotations:
+    {{ .Values.lineage.service.annotations | toYaml | indent 4 | trim }}
+  {{- end }}
+  labels:
+    app: integration-manager
+    component: lineage
+    chart: {{ template "integration-manager.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+  ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: integration-manager
+    component: lineage
+    release: {{ .Release.Name }}
+  type: "{{ .Values.lineage.service.type }}"
+{{- end }}

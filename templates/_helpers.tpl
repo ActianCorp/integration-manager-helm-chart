@@ -70,3 +70,8 @@ so truncation should be 63-22=41.
 {{- define "integration-manager.chatbot.fullname" -}}
 {{- printf "%s-chatbot" (include "integration-manager.fullname" .) -}}
 {{- end }}
+
+{{/* Fullname suffixed with lineage */}}
+{{- define "integration-manager.lineage.fullname" -}}
+{{- printf "%s-lineage" (include "integration-manager.fullname" .) -}}
+{{- end }}
