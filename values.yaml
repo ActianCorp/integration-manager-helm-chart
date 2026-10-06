@@ -642,7 +642,7 @@ insights:
 
 # Data Lineage Service
 lineage:
-  image: actian/integration-manager-lineage:14.0.0-SNAPSHOT
+  image: actian/lineage-service:14.0.0-SNAPSHOT
   pullPolicy: IfNotPresent
   enabled: false
   extraEnvVars: []
