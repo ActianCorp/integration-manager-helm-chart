@@ -645,6 +645,8 @@ lineage:
   image: actian/lineage-service:14.0.0-SNAPSHOT
   pullPolicy: IfNotPresent
   enabled: false
+  namespace: im-jobs
+  logEvents: true
   extraEnvVars: []
   extraConfig: |
     # Extra application.properties for the lineage deployment
