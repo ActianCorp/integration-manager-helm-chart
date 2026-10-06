@@ -639,3 +639,43 @@ chatbot:
 # Set to true in the same environments where chatbot.enabled=true.
 insights:
   enabled: false
+
+# Data Lineage Service
+lineage:
+  image: actian/integration-manager-lineage:14.0.0-SNAPSHOT
+  pullPolicy: IfNotPresent
+  enabled: false
+  extraEnvVars: []
+  extraConfig: |
+    # Extra application.properties for the lineage deployment
+  revisionHistoryLimit: 10
+  affinity: {}
+  livenessProbe:
+    initialDelaySeconds: 120
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    httpGet:
+      scheme: HTTP
+      path: /health
+      port: 8080
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
+    httpGet:
+      scheme: HTTP
+      path: /health
+      port: 8080
+  replicaCount: 1
+  extraLabels: {}
+  podAnnotations: {}
+  resources: {}
+  nodeSelector: {}
+  podSecurityContext: {}
+  securityContext: {}
+  service:
+    annotations: {}
+    type: ClusterIP
