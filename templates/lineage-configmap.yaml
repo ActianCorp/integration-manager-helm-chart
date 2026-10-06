@@ -13,7 +13,6 @@ data:
     lineage.enabled=true
     spring.liquibase.enabled=false
     lineage.namespace={{ .Values.lineage.namespace | default "im-jobs" }}
-    lineage.log-events={{ .Values.lineage.logEvents | default true }}
 
     {{- if .Values.lineage.extraConfig }}
     {{ .Values.lineage.extraConfig | indent 4 | trim }}
