@@ -305,7 +305,7 @@ spec:
           {{- if .Values.ingress.pathVersionPrefix }}
           path: /{{ .Values.ingress.pathVersionPrefix }}/(api\/lineage.*)
           {{- else }}
-          path: /api/lineage.*
+          path: /api/lineage
           {{- end }}
           pathType: ImplementationSpecific
         {{- end }}
