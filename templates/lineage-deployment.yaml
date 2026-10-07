@@ -1,0 +1,130 @@
+{{- if .Values.lineage.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "integration-manager.lineage.fullname" . }}
+  labels:
+    app: integration-manager
+    component: lineage
+    chart: {{ template "integration-manager.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.lineage.replicaCount }}
+  revisionHistoryLimit: {{ .Values.lineage.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app: integration-manager
+      component: lineage
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      annotations:
+        checksum/sharedconfig: {{ include (print $.Template.BasePath "/shared-configmap.yaml") . | sha256sum }}
+        checksum/lineageconfig: {{ include (print $.Template.BasePath "/lineage-configmap.yaml") . | sha256sum }}
+        checksum/secrets: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
+        {{- if .Values.lineage.podAnnotations }}
+        {{ .Values.lineage.podAnnotations | toYaml | indent 8 | trim }}
+        {{- end }}
+      labels:
+        app: integration-manager
+        component: lineage
+        chart: {{ template "integration-manager.chart" . }}
+        release: {{ .Release.Name }}
+        {{- if .Values.lineage.extraLabels }}
+        {{ .Values.lineage.extraLabels | toYaml | indent 8 | trim }}
+        {{- end }}
+    spec:
+      {{- if .Values.lineage.affinity }}
+      affinity:
+        {{ .Values.lineage.affinity | toYaml | indent 8 | trim }}
+      {{- end }}
+      serviceAccountName: {{ template "integration-manager.fullname" . }}
+      {{- if .Values.lineage.nodeSelector }}
+      nodeSelector:
+        {{ .Values.lineage.nodeSelector | toYaml | indent 8 | trim }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.lineage.podSecurityContext | nindent 8 }}
+      containers:
+      - name: integration-manager-lineage
+        image: {{ .Values.lineage.image }}
+        imagePullPolicy: {{ .Values.lineage.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.lineage.securityContext | nindent 10 }}
+        {{- if or .Values.lineage.javaOpts .Values.extraEnvVars .Values.lineage.extraEnvVars }}
+        env:
+        {{- if .Values.lineage.javaOpts }}
+        - name: JAVA_OPTS
+          value: {{ .Values.lineage.javaOpts }}
+        {{- end }}
+        {{- with .Values.extraEnvVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.lineage.extraEnvVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- end }}
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: im-shared-volume
+          readOnly: true
+          mountPath: /etc/config/shared.properties
+          subPath: application.properties
+        - name: im-lineage-volume
+          readOnly: true
+          mountPath: /etc/config/application.properties
+          subPath: application.properties
+        - name: secret-volume
+          readOnly: true
+          mountPath: /etc/secrets
+        {{- if .Values.existingRabbitSecret }}
+        - name: amqp-secret-volume
+          readOnly: true
+          mountPath: /etc/secrets/amqp
+        {{- end }}
+        - name: license-vol
+          readOnly: true
+          mountPath: /opt/Actian/licenses
+        readinessProbe:
+          {{ .Values.lineage.readinessProbe | toYaml | indent 10 | trim }}
+        livenessProbe:
+          {{ .Values.lineage.livenessProbe | toYaml | indent 10 | trim }}
+        {{- if .Values.lineage.resources }}
+        resources:
+          {{ .Values.lineage.resources | toYaml | indent 10 | trim }}
+        {{- end }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- range .Values.imagePullSecrets }}
+        - name: {{ . }}
+      {{- end }}
+      {{- end }}
+      volumes:
+      - name: im-shared-volume
+        configMap:
+          name: {{ template "integration-manager.fullname" . }}-shared
+      - name: im-lineage-volume
+        configMap:
+          name: {{ template "integration-manager.lineage.fullname" . }}
+      - name: secret-volume
+        secret:
+          {{- if .Values.existingSecret }}
+          secretName: {{ .Values.existingSecret }}
+          {{- else }}
+          secretName: {{ template "integration-manager.fullname" . }}
+          {{- end }}
+      {{- if .Values.existingRabbitSecret }}
+      - name: amqp-secret-volume
+        secret:
+          secretName: {{ .Values.existingRabbitSecret }}
+          items:
+          - key: rabbitmq-username
+            path: rabbitmq-username
+          - key: rabbitmq-password
+            path: rabbitmq-password
+      {{- end }}
+      - name: license-vol
+        configMap:
+          name: {{ template "integration-manager.base.fullname" . }}-dest-licenses
+{{- end }}
