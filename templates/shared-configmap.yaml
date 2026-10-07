@@ -164,6 +164,10 @@ data:
     # Lineage Service Configuration
     {{- if .Values.lineage.enabled }}
     lineage.enabled=true
+    # Informational only: the IM services and the worker do not read lineage.endpoint.
+    # The worker emits to the LINEAGE_EVENTS queue and the lineage pod consumes it.
+    # This is the URL of the HTTP ingestion route (POST /api/lineage) for EXTERNAL emitters
+    # (Airflow, dbt, Spark, custom) pushing OpenLineage RunEvent JSON. Requires a bearer JWT.
     lineage.endpoint=http://{{ template "integration-manager.lineage.fullname" . }}:8080/api/lineage
     {{- else }}
     lineage.enabled=false
